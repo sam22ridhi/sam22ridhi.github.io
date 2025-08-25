@@ -9,9 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Lora:wght@500&display=swap" rel="stylesheet">
   <style>
     /* DESIGN NOTES:
-      - Font: Changed to 'IBM Plex Mono' for the body to match the example's aesthetic. 'Lora' is kept for the name.
-      - Animation: A CSS keyframe animation for a paper plane, triggered by JavaScript on name click.
-      - Layout: Added new sections for Research and Writing with a clean, list-based layout using Flexbox.
+      - Font: 'IBM Plex Mono' for the body, 'Lora' for the name.
+      - Animation: A CSS keyframe animation for a paper plane.
+      - Layout: Sections are now hidden by default and shown with JS, creating a tab-like interface.
     */
 
     :root {
@@ -46,13 +46,14 @@
       font-size: 1.5rem;
       font-weight: 500;
       margin: 0;
-      cursor: pointer; /* Add cursor to indicate it's clickable */
+      cursor: pointer;
     }
 
     nav a {
       margin-left: 2rem;
       font-size: 1rem;
       font-weight: 400;
+      cursor: pointer;
     }
 
     /* --- Main Content & New Sections --- */
@@ -62,6 +63,11 @@
 
     .content-section {
         margin-top: 4rem;
+    }
+    
+    /* Add this new class to hide sections by default */
+    .hidden {
+        display: none;
     }
 
     .content-section h2 {
@@ -97,13 +103,13 @@
       transition: color 0.2s ease, border-color 0.2s ease;
     }
 
-    a:hover {
+    a:hover, nav a:hover {
       color: var(--hover-color);
       border-bottom-color: var(--hover-color);
     }
     
-    .item-year a {
-        border-bottom: none;
+    .item-year a, nav a {
+        border-bottom: none; /* Remove underline from nav links */
     }
 
     /* --- Footer Social Links --- */
@@ -114,7 +120,7 @@
     }
 
     footer a {
-      border-bottom: none; /* Remove underline from icons */
+      border-bottom: none;
     }
 
     footer svg {
@@ -137,7 +143,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         opacity: 0;
-        pointer-events: none; /* Prevents interaction */
+        pointer-events: none;
         z-index: 9999;
     }
 
@@ -167,6 +173,9 @@
         gap: 1rem;
         margin-bottom: 3rem;
       }
+      nav {
+        display: flex;
+      }
       nav a {
         margin-left: 0;
         margin-right: 1.5rem;
@@ -182,18 +191,18 @@
 </head>
 <body>
 
-  <!-- Paper Plane SVG for animation -->
   <svg id="paper-plane" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="#555" d="M511.6 36.86l-64 415.1c-1.5 9.734-7.375 18.22-15.97 23.05c-8.625 4.844-18.81 5.938-28.31 2.75L288 400H175.2c-12.31 0-23.75-6.469-30.06-16.94l-44.69-74.52l-96.13 47.12c-9.75 4.781-21.25 4.781-31 0c-9.75-4.781-15.62-14.25-15.62-24.38V320l192.8-192.8c12.75-12.75 31.5-12.75 44.25 0s12.75 31.5 0 44.25L128 336l21.19 35.31l128-62.75c12.12-5.938 26.38-5.938 38.5 0l128 62.75l51.31-334.3c1.375-8.875-2.375-17.81-9.875-23.12C494.2 1.188 484.8 .063 475.7 3.25L16 227.3c-9.25 3.188-15.75 11.44-15.75 21.31c0 9.875 6.5 18.12 15.75 21.31L128 296.5V416c0 12.31 6.469 23.75 16.94 30.06C151.4 452.5 158.7 456 166 456s14.62-3.5 20.94-10.06l44.69-74.52l112.5 55.12c9.5 4.688 20.31 4.688 29.81 0C382.9 421.8 388.5 412.8 388.5 403.1l64-415.1C453.9 28.38 449.1 19.38 441.8 13.12C434.5 6.875 425.2 4.063 416.5 5.25L32.19 68.88c-9.125 1.5-16.5 8.375-18.12 17.5s3.375 18.12 11.38 23.38L128 173.4V80c0-12.31 6.469-23.75 16.94-30.06C151.4 43.5 158.7 40 166 40s14.62 3.5 20.94 10.06l208-102.7C404.8-1.562 414.8-1.562 423.7 3.125C432.7 7.812 438.3 17.62 437.9 27.25l-51.31 334.3l-128-62.75c-12.12-5.938-26.38-5.938-38.5 0L91.81 360.8l-21.19-35.31l256-125.5C339.4 193.9 345.8 184.1 345.8 174.2s-6.5-18.12-15.75-21.31L32.19 84.13L475.7 20.25C484.8 17.06 494.2 18.19 501.5 23.5C508.8 28.81 513.1 37.81 511.6 36.86z"/></svg>
 
   <header>
     <h1 id="name-heading">Samridhi Raj Sinha</h1>
     <nav>
-      <a href="#research">Research</a>
-      <a href="#writing">Writing</a>
+      <a data-target="about">About</a>
+      <a data-target="research">Research</a>
+      <a data-target="writing">Writing</a>
     </nav>
   </header>
 
-  <main>
+  <main id="about">
     <p>
       I am a computer engineering undergraduate at NMIMS, with a deep interest in the frontiers of artificial intelligence. My focus lies in the domains of <strong>Deep Learning</strong>, <strong>Computer Vision</strong>, and the nuanced complexities of <strong>Language Models</strong>.
     </p>
@@ -202,10 +211,10 @@
     </p>
   </main>
 
-  <section id="research" class="content-section">
+  <!-- Added 'hidden' class to hide these sections initially -->
+  <section id="research" class="content-section hidden">
     <h2>Selected Research</h2>
     <div class="publication-list">
-        <!-- EXAMPLE ITEM: Replace with your actual research -->
         <div class="item">
             <div class="item-content">
                 <p class="item-title"><a href="#">Your Groundbreaking Research Paper Title</a></p>
@@ -213,14 +222,12 @@
             </div>
             <div class="item-year">2025 <a href="#">[PDF]</a></div>
         </div>
-        <!-- Add more items here -->
     </div>
   </section>
 
-  <section id="writing" class="content-section">
+  <section id="writing" class="content-section hidden">
     <h2>Selected Writing</h2>
     <div class="publication-list">
-        <!-- EXAMPLE ITEM: Replace with your actual writing -->
         <div class="item">
             <div class="item-content">
                 <p class="item-title"><a href="#">An Insightful Article on Language Models</a></p>
@@ -228,12 +235,10 @@
             </div>
             <div class="item-year">2025 <a href="#">[Read]</a></div>
         </div>
-        <!-- Add more items here -->
     </div>
   </section>
 
   <footer>
-    <!-- Social media icons remain the same -->
     <a href="https://twitter.com/sam22ridhi" target="_blank" aria-label="Twitter"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.223.085a4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>
     <a href="https://github.com/sam22ridhi" target="_blank" aria-label="GitHub"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
     <a href="https://linkedin.com/in/sam22ridhi" target="_blank" aria-label="LinkedIn"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
@@ -242,23 +247,42 @@
   </footer>
 
   <script>
-    // JavaScript to trigger the paper plane animation
+    // --- Paper Plane Animation ---
     const nameHeading = document.getElementById('name-heading');
     const paperPlane = document.getElementById('paper-plane');
 
     nameHeading.addEventListener('click', () => {
-      // If the animation is already running, don't do anything
-      if (paperPlane.classList.contains('fly')) {
-        return;
-      }
-
+      if (paperPlane.classList.contains('fly')) return;
       paperPlane.classList.add('fly');
+      setTimeout(() => paperPlane.classList.remove('fly'), 1500);
+    });
 
-      // Remove the class after the animation finishes (1500ms)
-      // so it can be triggered again.
-      setTimeout(() => {
-        paperPlane.classList.remove('fly');
-      }, 1500);
+    // --- Tab Navigation Logic ---
+    const navLinks = document.querySelectorAll('nav a');
+    const mainContent = document.getElementById('about');
+    const researchSection = document.getElementById('research');
+    const writingSection = document.getElementById('writing');
+
+    const sections = {
+        about: mainContent,
+        research: researchSection,
+        writing: writingSection
+    };
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            const targetId = event.target.dataset.target;
+
+            // Hide all sections first
+            Object.values(sections).forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Show the target section
+            if (sections[targetId]) {
+                sections[targetId].classList.remove('hidden');
+            }
+        });
     });
   </script>
 
