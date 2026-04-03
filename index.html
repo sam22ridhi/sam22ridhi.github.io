@@ -4,19 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Samridhi Raj Sinha</title>
-  <!-- The new animated kitten favicon is added here -->
+  <!-- Animated kitten favicon -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg%20width%3D%22100%22%20height%3D%22100%22%20viewBox%3D%220%200%20100%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cstyle%3E.eye-lid%7Banimation%3Ablink%204s%20infinite%20step-end%3Btransform-origin%3Acenter%7D%40keyframes%20blink%7B0%25%2C95%25%7Btransform%3AscaleY(0)%7D100%25%7Btransform%3AscaleY(1)%7D%7D%3C%2Fstyle%3E%3Cg%20stroke%3D%27%232c3e50%27%20stroke-width%3D%274%27%20fill%3D%27none%27%20stroke-linecap%3D%27round%27%3E%3Cpath%20d%3D%27M20%2070%20C%2020%2030%2C%2080%2030%2C%2080%2070%27%2F%3E%3Cpath%20d%3D%27M20%2045%20L%2020%2020%20L%2040%2035%27%2F%3E%3Cpath%20d%3D%27M80%2045%20L%2080%2020%20L%2060%2035%27%2F%3E%3Ccircle%20cx%3D%2735%27%20cy%3D%2750%27%20r%3D%275%27%20fill%3D%27%232c3e50%27%20stroke%3D%27none%27%2F%3E%3Ccircle%20cx%3D%2765%27%20cy%3D%2750%27%20r%3D%275%27%20fill%3D%27%232c3e50%27%20stroke%3D%27none%27%2F%3E%3Cpath%20class%3D%27eye-lid%27%20d%3D%27M30%2050%20H%2040%27%2F%3E%3Cpath%20class%3D%27eye-lid%27%20d%3D%27M60%2050%20H%2070%27%2F%3E%3Cpath%20d%3D%27M45%2065%20L%2050%2070%20L%2055%2065%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* DESIGN NOTES:
-      - Theme: More artistic and personalized with a new font pairing and a moodboard section.
-      - Fonts: 'Playfair Display' for a bold, classic heading. 'Source Code Pro' for a clean, modern body text.
-      - Animation: A new, more dynamic paper plane animation that scales and follows a curve.
-      - Layout: A new "Personal" section uses CSS Grid to create a dynamic, collage-like moodboard.
-    */
-
     :root {
       --text-color: #2c3e50;
       --link-color: #2c3e50;
@@ -31,12 +24,12 @@
       font-family: 'Source Code Pro', monospace;
       background-color: var(--background-color);
       color: var(--text-color);
-      max-width: 750px;
+      max-width: 800px;
       margin: 0 auto;
       padding: 4rem 2rem;
       line-height: 1.8;
       font-size: 16px;
-      overflow-x: hidden; /* Prevents horizontal scroll during animation */
+      overflow-x: hidden;
     }
 
     /* --- Header & Navigation --- */
@@ -45,6 +38,8 @@
       justify-content: space-between;
       align-items: baseline;
       margin-bottom: 6rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
     }
 
     header h1 {
@@ -56,8 +51,13 @@
       position: relative;
     }
 
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
     nav a {
-      margin-left: 2.5rem;
       font-size: 1rem;
       font-weight: 500;
       cursor: pointer;
@@ -76,10 +76,9 @@
         transition: width 0.3s ease-in-out;
     }
 
-    nav a:hover::after {
+    nav a:hover::after, nav a.active::after {
         width: 100%;
     }
-
 
     /* --- Main Content & Sections --- */
     main p {
@@ -87,12 +86,12 @@
     }
 
     .content-section {
-        margin-top: 5rem;
+        margin-top: 3rem;
         animation: fadeIn 0.5s ease-in-out;
     }
     
     .hidden {
-        display: none;
+        display: none !important;
     }
 
     @keyframes fadeIn {
@@ -107,6 +106,9 @@
         margin-bottom: 2.5rem;
         border-bottom: 1px solid var(--border-color);
         padding-bottom: 0.75rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     
     .publication-list .item {
@@ -114,16 +116,198 @@
         justify-content: space-between;
         align-items: baseline;
         margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px dashed var(--border-color);
+    }
+    .publication-list .item:last-child {
+        border-bottom: none;
     }
     
     .publication-list .item-details {
         font-size: 0.9rem;
         color: #7f8c8d;
+        margin-top: 0.2rem;
     }
     
     .publication-list .item-year {
         margin-left: 2rem;
         flex-shrink: 0;
+        text-align: right;
+    }
+
+    /* --- Experience Timeline --- */
+    .timeline {
+        border-left: 2px solid var(--border-color);
+        margin-left: 1rem;
+        padding-left: 2rem;
+        margin-top: 2rem;
+    }
+
+    .timeline-item {
+        margin-bottom: 3rem;
+        position: relative;
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -2.35rem; /* center on the border */
+        top: 0.3rem;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--background-color);
+        border: 2px solid var(--hover-color);
+        transition: background 0.3s ease;
+    }
+
+    .timeline-item:hover::before {
+        background: var(--hover-color);
+    }
+
+    .timeline-date {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .timeline-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin: 0 0 0.2rem 0;
+    }
+
+    .timeline-company {
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: var(--text-color);
+        font-size: 0.95rem;
+    }
+
+    .timeline-desc {
+        font-size: 0.95rem;
+        color: #555;
+    }
+    
+    .timeline-desc ul {
+        padding-left: 1.2rem;
+        margin-top: 0.5rem;
+    }
+    
+    .timeline-desc li {
+        margin-bottom: 0.3rem;
+    }
+
+    /* --- Buttons & Modals --- */
+    .btn-outline {
+        font-family: 'Source Code Pro', monospace;
+        background: transparent;
+        border: 1px solid var(--text-color);
+        color: var(--text-color);
+        padding: 0.5rem 1.2rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+        background: var(--text-color);
+        color: var(--background-color);
+    }
+
+    .modal-overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(253, 250, 246, 0.8);
+        backdrop-filter: blur(8px);
+        z-index: 10000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .modal-content {
+        background: #fff;
+        padding: 3rem;
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        max-width: 500px;
+        width: 90%;
+        position: relative;
+        transform: translateY(20px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        border: 1px solid var(--border-color);
+    }
+
+    .modal-overlay.active .modal-content {
+        transform: translateY(0) scale(1);
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.5rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #999;
+        background: none;
+        border: none;
+        transition: color 0.2s;
+    }
+
+    .close-modal:hover {
+        color: var(--hover-color);
+    }
+
+    .modal-content h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem;
+    }
+
+    .modal-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .modal-links a {
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        padding: 0.8rem;
+        border-radius: 6px;
+        background: var(--background-color);
+        transition: all 0.2s ease;
+        border: none;
+    }
+    
+    .modal-links a svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        fill: currentColor;
+        flex-shrink: 0;
+    }
+
+    .modal-links a:hover {
+        background: var(--text-color);
+        color: var(--background-color);
     }
 
     /* --- Links --- */
@@ -133,8 +317,13 @@
       transition: color 0.2s ease;
     }
 
+    main a, .content-section a:not(.btn-outline):not(.modal-links a) {
+      border-bottom: 1px solid var(--border-color);
+    }
+
     a:hover, nav a:hover {
       color: var(--hover-color);
+      border-bottom-color: var(--hover-color);
     }
 
     /* --- Moodboard Section --- */
@@ -162,6 +351,7 @@
         object-fit: cover;
         border-radius: 4px;
         margin-bottom: 1rem;
+        background: #ccc; /* Fallback */
     }
     
     .moodboard-item h3 {
@@ -182,14 +372,16 @@
         background-color: var(--moodboard-bg2);
     }
 
-
     /* --- Footer Social Links --- */
     footer {
       margin-top: 6rem;
       display: flex;
       gap: 1.75rem;
       justify-content: center;
+      flex-wrap: wrap;
     }
+
+    footer a { border: none !important; }
 
     footer a svg {
       width: 22px;
@@ -203,10 +395,10 @@
       transform: translateY(-3px);
     }
     
-    /* --- New Paper Plane Animation --- */
+    /* --- Paper Plane Animation --- */
     #paper-plane {
         position: fixed;
-        width: 20px; /* Start small */
+        width: 20px;
         height: 20px;
         opacity: 0;
         pointer-events: none;
@@ -219,31 +411,23 @@
     }
 
     @keyframes fly-across-and-grow {
-        0% {
-            opacity: 1;
-            transform: translate(0, 0) scale(0.2) rotate(-10deg);
-        }
-        20% {
-            transform: translate(20vw, -20vh) scale(0.5) rotate(10deg);
-        }
-        80% {
-            opacity: 1;
-            transform: translate(80vw, -80vh) scale(1.2) rotate(30deg);
-        }
-        100% {
-            opacity: 0;
-            transform: translate(100vw, -100vh) scale(1.5) rotate(45deg);
-        }
+        0% { opacity: 1; transform: translate(0, 0) scale(0.2) rotate(-10deg); }
+        20% { transform: translate(20vw, -20vh) scale(0.5) rotate(10deg); }
+        80% { opacity: 1; transform: translate(80vw, -80vh) scale(1.2) rotate(30deg); }
+        100% { opacity: 0; transform: translate(100vw, -100vh) scale(1.5) rotate(45deg); }
     }
     
     /* --- Responsive Design --- */
     @media (max-width: 600px) {
-      body { padding: 2.5rem 1rem; }
-      header { flex-direction: column; align-items: flex-start; gap: 1.5rem; margin-bottom: 4rem; }
-      nav { display: flex; }
-      nav a { margin-left: 0; margin-right: 1.5rem; }
-      .publication-list .item { flex-direction: column; align-items: flex-start; gap: 0.5rem; margin-bottom: 2rem; }
+      body { padding: 2.5rem 1.5rem; }
+      header { flex-direction: column; align-items: flex-start; gap: 1rem; margin-bottom: 4rem; }
+      nav { display: flex; gap: 1rem; }
+      nav a { margin-left: 0; }
+      .publication-list .item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .publication-list .item-year { margin-left: 0; text-align: left; }
       .moodboard-item.wide { grid-column: span 1; }
+      .timeline { padding-left: 1.5rem; }
+      .content-section h2 { flex-direction: column; align-items: flex-start; gap: 1rem; }
     }
   </style>
 </head>
@@ -255,37 +439,149 @@
 
   <header>
     <h1 id="name-heading">Samridhi Raj Sinha</h1>
-    <nav>
-      <a data-target="about">About</a>
+    <nav id="nav-menu">
+      <a data-target="about" class="active">About</a>
+      <a data-target="experience">Experience</a>
       <a data-target="research">Research</a>
       <a data-target="writing">Writing</a>
       <a data-target="personal">Personal</a>
     </nav>
   </header>
 
-  <main id="about">
-<p>
-  I am an undergraduate in Computer Engineering at NMIMS Mumbai, passionate about research in artificial intelligence. My interests center on <strong>Language Models</strong> and <strong>Computer Vision</strong>, and I’m particularly curious about exploring <strong>AI evaluation</strong> and the <strong>mechanistic interpretability</strong> of these models.
-</p>
-<p>
-  What excites me most is applying these technologies to solve real-world problems—work that is both innovative and meaningful.
-</p>
-<p>
-  Outside of tech, I love reading, watching good films, and exploring little things that make life interesting. There’s so much I want to learn and so many paths I’d like to explore—I just hope I get to experience most of them.
-</p>
+  <main id="about" class="content-section">
+    <p>
+      I am an undergraduate in Computer Engineering at NMIMS Mumbai, passionate about research in artificial intelligence. My interests center on <strong>Language Models</strong> and <strong>Computer Vision</strong>, and I’m particularly curious about exploring <strong>AI evaluation</strong> and the <strong>mechanistic interpretability</strong> of these models.
+    </p>
+    <p>
+      What excites me most is applying these technologies to solve real-world problems—work that is both innovative and meaningful.
+    </p>
+    <p>
+      Outside of tech, I love reading, watching good films, and exploring little things that make life interesting. There’s so much I want to learn and so many paths I’d like to explore—I just hope I get to experience most of them.
+    </p>
   </main>
+
+  <!-- NEW EXPERIENCE SECTION -->
+  <section id="experience" class="content-section hidden">
+    <h2>
+        Experience 
+        <button class="btn-outline" id="open-resume-btn">View Resume & Docs</button>
+    </h2>
+    <div class="timeline">
+        
+        <div class="timeline-item">
+            <div class="timeline-date">Jan 2026 - Present • Mumbai, India (Hybrid)</div>
+            <h3 class="timeline-title">Software Engineer Intern</h3>
+            <div class="timeline-company">Nomura</div>
+            <div class="timeline-desc">
+                <ul>
+                    <li>Developed a full-stack ticket automation tool, reducing ticket creation time from 20 minutes to 1 minute.</li>
+                    <li>Wrote scripts for generating vector embeddings and implemented RAG (Retrieval-Augmented Generation) for code-based search.</li>
+                    <li>Worked on a React-based project for agentic data lineage creation.</li>
+                    <li><strong>Tech Stack:</strong> React, Python, FastAPI, SQL, Shell, Linux, FAISS, LLMs.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-date">Jul 2025 - Jan 2026</div>
+            <h3 class="timeline-title">AI Research Intern</h3>
+            <div class="timeline-company">Lingo Labs</div>
+            <div class="timeline-desc">
+                <ul>
+                    <li>Built the zero-code web UI and modular CLI for EKA-EVAL, supporting evaluation across 50+ multilingual benchmarks.</li>
+                    <li>Co-authored a large-scale survey on Code-Switched NLP in the era of LLMs, covering 300+ studies across tasks, datasets, and languages.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-date">May 2025 - Jul 2025 • Gandhinagar, India</div>
+            <h3 class="timeline-title">AI Researcher (SRIP 2025)</h3>
+            <div class="timeline-company">Indian Institute of Technology Gandhinagar</div>
+            <div class="timeline-desc">
+                Selected for the prestigious SRIP 2025 program as a Research Intern under Dr. Mayank Singh, working on the project "Building Indic Benchmarks for LLMs" - a part of Project EKΛ, India’s 120B-parameter multilingual open source model initiative.
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-date">Nov 2024 - Mar 2025 • Remote</div>
+            <h3 class="timeline-title">AI Engineer Intern</h3>
+            <div class="timeline-company">ResoluteAI Software</div>
+            <div class="timeline-desc">
+                <ul>
+                    <li>Worked on developing and optimizing solutions using Large Language Models (LLMs) and Deep Learning architectures.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-date">Sep 2024 - Jul 2025 • Mumbai, India</div>
+            <h3 class="timeline-title">AI/ML Research Intern</h3>
+            <div class="timeline-company">Nanavati Max Super Speciality Hospital</div>
+            <div class="timeline-desc">
+                Worked on a project titled 'Estimating Breast Tumor Bed Volume using Pre & Post-op scans with Surgical Clips and AI models' to aid in radiotherapy treatment planning.
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-date">May 2024 - Jul 2024 • Mumbai, India</div>
+            <h3 class="timeline-title">AI & ML Engineer Intern</h3>
+            <div class="timeline-company">Jio Platforms Limited (JPL)</div>
+            <div class="timeline-desc">
+                <ul>
+                    <li>Enhanced data processing efficiency by developing an automatic annotator tool using Python and NLP techniques (FastAPI, spaCy), improving the process by 30%.</li>
+                    <li>Implemented a low-code, multi-agent system using CrewAI, enabling efficient task automation and intelligent agent collaboration, resulting in a 40% reduction in development timelines.</li>
+                    <li>Gained hands-on experience in developing, collaborating and optimising complex data processing workflows.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+  </section>
 
   <section id="research" class="content-section hidden">
     <h2>Selected Research</h2>
     <div class="publication-list">
+        
         <div class="item">
-            <div class="item-content"><p><a href="https://arxiv.org/abs/2507.01853">Eka-Eval : A Comprehensive Evaluation Framework for Large Language Models in Indian Languages</a></p><p class="item-details">arxiv preprint</p></div>
-            <div class="item-year">2025 <a href="https://arxiv.org/pdf/2507.01853">PDF</a></div>
+            <div class="item-content">
+                <p><a href="https://arxiv.org/abs/2510.07037" target="_blank">Beyond Monolingual Assumptions: A Survey on Code-Switched NLP in the Era of Large Language Models across Modalities</a></p>
+                <p class="item-details">arxiv preprint</p>
+            </div>
+            <div class="item-year">2025 <a href="https://arxiv.org/pdf/2510.07037" target="_blank">PDF</a></div>
         </div>
+
+        <div class="item">
+            <div class="item-content">
+                <p><a href="https://arxiv.org/abs/2507.01853" target="_blank">Eka-Eval: A Comprehensive Evaluation Framework for Large Language Models in Indian Languages</a></p>
+                <p class="item-details">arxiv preprint</p>
+            </div>
+            <div class="item-year">2025 <a href="https://arxiv.org/pdf/2507.01853" target="_blank">PDF</a></div>
+        </div>
+
+        <div class="item">
+            <div class="item-content">
+                <p><a href="https://drive.google.com/drive/u/0/search?q=Nanavati" target="_blank">Deep Learning-Based Automated Delineation of Breast Tumor Bed Volumes for Post-Operative Radiotherapy Planning Post Breast-Conservation Surgery: A Feasibility Study</a></p>
+                <p class="item-details">publication ongoing</p>
+            </div>
+            <div class="item-year">2025 <a href="https://drive.google.com/drive/u/0/search?q=Nanavati" target="_blank">View</a></div>
+        </div>
+        
+        <div class="item">
+            <div class="item-content">
+                <p><a href="https://drive.google.com/file/d/1HOZtSFRHL0sV82iX6jlJGX8CcyZwL8tI/view?usp=sharing" target="_blank">Towards Intelligent Offline Proctoring: AI-Driven Spatio-Temporal Behavioral Analysis</a></p>
+                <p class="item-details">IEEE publishing ongoing</p>
+            </div>
+            <div class="item-year">2025 <a href="https://drive.google.com/file/d/1HOZtSFRHL0sV82iX6jlJGX8CcyZwL8tI/view?usp=sharing" target="_blank">PDF</a></div>
+        </div>
+
       <div class="item">
-            <div class="item-content"><p><a href="https://doi.org/10.21203/rs.3.rs-7455685/v1">SpectraViT: A Novel Hybrid Architecture for Enhanced Melanoma Classification</a></p><p class="item-details">preprint</p></div>
-            <div class="item-year">2024 <a href="https://www.researchsquare.com/article/rs-7455685/v1">PDF</a></div>
-    </div>
+            <div class="item-content">
+                <p><a href="https://doi.org/10.21203/rs.3.rs-7455685/v1" target="_blank">SpectraViT: A Novel Hybrid Architecture for Enhanced Melanoma Classification</a></p>
+                <p class="item-details">preprint</p>
+            </div>
+            <div class="item-year">2024 <a href="https://www.researchsquare.com/article/rs-7455685/v1" target="_blank">PDF</a></div>
+      </div>
     </div>
   </section>
 
@@ -293,8 +589,18 @@
     <h2>Selected Writing</h2>
     <div class="publication-list">
         <div class="item">
-            <div class="item-content"><p><a href="https://medium.com/@samridhiraj04/beyond-earth-unravelling-the-fermi-paradox-ac6bdb1ec9e3">Beyond Earth-Unravelling the Fermi Paradox</a></p><p class="item-details">space exploration</p></div>
-            <div class="item-year">2023<a href="https://medium.com/@samridhiraj04/beyond-earth-unravelling-the-fermi-paradox-ac6bdb1ec9e3<">Read</a></div>
+            <div class="item-content">
+                <p><a href="https://medium.com/@samridhiraj04/life-is-a-fig-tree-a2b3cd223941" target="_blank">Life is a Fig Tree</a></p>
+                <p class="item-details">personal philosophy</p>
+            </div>
+            <div class="item-year">2024<a href="https://medium.com/@samridhiraj04/life-is-a-fig-tree-a2b3cd223941" target="_blank">Read</a></div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <p><a href="https://medium.com/@samridhiraj04/beyond-earth-unravelling-the-fermi-paradox-ac6bdb1ec9e3" target="_blank">Beyond Earth-Unravelling the Fermi Paradox</a></p>
+                <p class="item-details">space exploration</p>
+            </div>
+            <div class="item-year">2023<a href="https://medium.com/@samridhiraj04/beyond-earth-unravelling-the-fermi-paradox-ac6bdb1ec9e3" target="_blank">Read</a></div>
         </div>
     </div>
   </section>
@@ -303,7 +609,7 @@
     <h2>Moodboard</h2>
     <div class="moodboard">
         <div class="moodboard-item wide">
-            <img src="samss.jpg" alt="Placeholder for favorite film">
+            <img src="samss.jpg" alt="Favorite film snippet" onerror="this.src='https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=1000';">
             <h3>Cinema Lover</h3>
             <p>Exploring narratives from around the world. Currently revisiting the works of Satyajit Ray.</p>
         </div>
@@ -312,7 +618,7 @@
             <p>"The Midnight Library" by Matt Haig. A heartfelt story about second chances and all the lives we could have lived.</p>
         </div>
         <div class="moodboard-item">
-            <img src="www.jpg" alt="Placeholder for current album">
+            <img src="www.jpg" alt="Album cover" onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=400';">
             <h3>On Repeat</h3>
             <p>The soothing sounds of wave to earth.</p>
         </div>
@@ -323,13 +629,50 @@
     </div>
   </section>
 
+  <!-- Modal for Resume & Documents -->
+  <div id="resume-modal" class="modal-overlay">
+      <div class="modal-content">
+          <button class="close-modal" id="close-modal-btn">&times;</button>
+          <h3>Documents & Links</h3>
+          <div class="modal-links">
+              <!-- Resume Link -->
+              <a href="SamridhiRajSinha_CV.pdf" target="_blank" aria-label="Download Full Resume">
+                  <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                  Samridhi_Raj_Resume.pdf
+              </a>
+              <!-- Writing Link -->
+              <a href="https://medium.com/@samridhiraj04/life-is-a-fig-tree-a2b3cd223941" target="_blank" aria-label="Read Life is a Fig Tree">
+                  <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                  Read: Life is a Fig Tree
+              </a>
+              <!-- Paper Link -->
+              <a href="https://drive.google.com/file/d/1HOZtSFRHL0sV82iX6jlJGX8CcyZwL8tI/view?usp=sharing" target="_blank" aria-label="View Towards Intelligent Proctoring">
+                  <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path d="M7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z"/></svg>
+                  Paper: Towards Intelligent Proctoring (2026)
+              </a>
+              <!-- Additional Certs -->
+              <a href="Samridhi_Raj_Internship_Certificate.pdf" target="_blank" aria-label="View IIT Internship Certificate">
+                  <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path d="M7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z"/></svg>
+                  IIT_Internship_Certificate.pdf
+              </a>
+              <a href="Nanavati_AcknowledgementCertificate.pdf" target="_blank" aria-label="View Nanavati Certificate">
+                  <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path d="M7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z"/></svg>
+                  Nanavati_Acknowledgement.pdf
+              </a>
+              <a href="https://www.linkedin.com/in/samridhi-raj-sinha-a96520217/" target="_blank" aria-label="LinkedIn Profile">
+                  <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.16-3.8c-1.08 0-1.8.57-2.14 1.14v-1h-2.4v9h2.4v-4.97c0-1.32.25-2.6 1.88-2.6 1.61 0 1.63 1.51 1.63 2.68v4.95h2.39M5.5 8h2.5v10.5h-2.5V8M6.75 4.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
+                  Connect on LinkedIn
+              </a>
+          </div>
+      </div>
+  </div>
+
   <footer>
     <a href="https://x.com/samisindilemma" target="_blank" aria-label="Twitter"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.223.085a4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>
     <a href="https://github.com/sam22ridhi" target="_blank" aria-label="GitHub"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
     <a href="https://www.linkedin.com/in/samridhi-raj-sinha-a96520217/" target="_blank" aria-label="LinkedIn"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
     <a href="mailto:samridhiraj04@gmail.com" aria-label="Email"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 5.457v13.909c0 .905-.732 1.636-1.636 1.636h-3.819V11.79L12 16.533 5.455 11.79v9.212H1.636C.732 21 0 20.268 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 3.28 24 4.435 24 5.457z"/></svg></a>
     <a href="https://scholar.google.com/citations?hl=en&user=-OvbUpBIv6AC" target="_blank" aria-label="Google Scholar"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.242 13.769L0 9.5L12 0l12 9.5l-5.242 4.269C17.548 11.249 14.978 9 12 9s-5.548 2.249-6.758 4.769zM12 10c-3.314 0-6 2.686-6 6s2.686 6 6 6s6-2.686 6-6s-2.686-6-6-6z"/></svg></a>
-    <!-- Letterboxd Icon -->
     <a href="https://letterboxd.com/samiee22/" target="_blank" aria-label="Letterboxd"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.12 12.03a3.03 3.03 0 11-6.06 0 3.03 3.03 0 016.06 0zm-7.6 0a1.57 1.57 0 11-3.13 0 1.57 1.57 0 013.13 0zM4.46 12.03a1.57 1.57 0 11-3.13 0 1.57 1.57 0 013.13 0zM24 4.1v15.8c0 2.26-1.84 4.1-4.1 4.1H4.1C1.84 24 0 22.16 0 19.9V4.1C0 1.84 1.84 0 4.1 0h15.8C22.16 0 24 1.84 24 4.1z"/></svg></a>
   </footer>
 
@@ -341,8 +684,6 @@
 
     nameHeading.addEventListener('click', (event) => {
         if (paperPlane.classList.contains('fly')) return;
-
-        // Position the plane at the click location
         const rect = nameHeading.getBoundingClientRect();
         planeContainer.style.position = 'fixed';
         planeContainer.style.left = `${rect.left + (rect.width / 2)}px`;
@@ -356,6 +697,7 @@
     const navLinks = document.querySelectorAll('nav a');
     const sections = {
         about: document.getElementById('about'),
+        experience: document.getElementById('experience'),
         research: document.getElementById('research'),
         writing: document.getElementById('writing'),
         personal: document.getElementById('personal')
@@ -363,11 +705,44 @@
 
     navLinks.forEach(link => {
         link.addEventListener('click', (event) => {
+            // Remove active state from all links
+            navLinks.forEach(n => n.classList.remove('active'));
+            // Add active state to clicked link
+            event.target.classList.add('active');
+
             const targetId = event.target.dataset.target;
             Object.values(sections).forEach(section => section.classList.add('hidden'));
+            
             if (sections[targetId]) {
                 sections[targetId].classList.remove('hidden');
             }
+        });
+    });
+
+    // --- Modal Logic ---
+    const openResumeBtn = document.getElementById('open-resume-btn');
+    const closeBtn = document.getElementById('close-modal-btn');
+    const modalOverlay = document.getElementById('resume-modal');
+
+    openResumeBtn.addEventListener('click', () => {
+        modalOverlay.classList.add('active');
+    });
+
+    closeBtn.addEventListener('click', () => {
+        modalOverlay.classList.remove('active');
+    });
+
+    // Close on click outside
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            modalOverlay.classList.remove('active');
+        }
+    });
+
+    // Fallback for missing images to keep aesthetic clean
+    document.querySelectorAll('img').forEach(img => {
+        img.addEventListener('error', function() {
+            this.style.display = 'none';
         });
     });
   </script>
