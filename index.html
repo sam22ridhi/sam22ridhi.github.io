@@ -1,729 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Samridhi Raj Sinha</title>
-  <!-- Animated kitten favicon -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg%20width%3D%22100%22%20height%3D%22100%22%20viewBox%3D%220%200%20100%20100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cstyle%3E.eye-lid%7Banimation%3Ablink%204s%20infinite%20step-end%3Btransform-origin%3Acenter%7D%40keyframes%20blink%7B0%25%2C95%25%7Btransform%3AscaleY(0)%7D100%25%7Btransform%3AscaleY(1)%7D%7D%3C%2Fstyle%3E%3Cg%20stroke%3D%27%232c3e50%27%20stroke-width%3D%274%27%20fill%3D%27none%27%20stroke-linecap%3D%27round%27%3E%3Cpath%20d%3D%27M20%2070%20C%2020%2030%2C%2080%2030%2C%2080%2070%27%2F%3E%3Cpath%20d%3D%27M20%2045%20L%2020%2020%20L%2040%2035%27%2F%3E%3Cpath%20d%3D%27M80%2045%20L%2080%2020%20L%2060%2035%27%2F%3E%3Ccircle%20cx%3D%2735%27%20cy%3D%2750%27%20r%3D%275%27%20fill%3D%27%232c3e50%27%20stroke%3D%27none%27%2F%3E%3Ccircle%20cx%3D%2765%27%20cy%3D%2750%27%20r%3D%275%27%20fill%3D%27%232c3e50%27%20stroke%3D%27none%27%2F%3E%3Cpath%20class%3D%27eye-lid%27%20d%3D%27M30%2050%20H%2040%27%2F%3E%3Cpath%20class%3D%27eye-lid%27%20d%3D%27M60%2050%20H%2070%27%2F%3E%3Cpath%20d%3D%27M45%2065%20L%2050%2070%20L%2055%2065%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --text-color: #2c3e50;
-      --link-color: #2c3e50;
-      --background-color: #fdfaf6;
-      --hover-color: #e74c3c;
-      --border-color: #e0e0e0;
-      --moodboard-bg1: #ecf0f1;
-      --moodboard-bg2: #e8d9d5;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Samridhi Raj Sinha</title>
+<meta name="description" content="Samridhi Raj Sinha: software engineer at Nomura. AI research on language models, evaluation and mechanistic interpretability.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%232a222e%22/><text x=%2250%22 y=%2274%22 font-size=%2275%22 text-anchor=%22middle%22 fill=%22%23d49aab%22 font-family=%22serif%22>S</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf7f9;
+  --tx: #2a222e;
+  --mut: #8b7c8d;
+  --acc: #89608e; 
+  --pnk: #d49aab;
+  --line: #e3dbe1;
+  --warm: #f2eaf0;
+  --sf: 'Cormorant Garamond', Georgia, serif;
+  --ui: 'DM Sans', sans-serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body { margin: 0; background: var(--bg); color: var(--tx); font: 17px/1.7 var(--ui); }
+::selection { background: var(--pnk); color: #fff; }
+a { color: var(--tx); text-decoration-color: var(--pnk); text-underline-offset: 3px; }
+a:hover { color: var(--acc); }
 
-    body {
-      font-family: 'Source Code Pro', monospace;
-      background-color: var(--background-color);
-      color: var(--text-color);
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 4rem 2rem;
-      line-height: 1.8;
-      font-size: 16px;
-      overflow-x: hidden;
-    }
+/* Progress Bar */
+#bar { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: linear-gradient(90deg, var(--acc), var(--pnk)); z-index: 30; }
 
-    /* --- Header & Navigation --- */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 6rem;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
+/* Navigation */
+nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(250,247,249,.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+nav .w { display: flex; align-items: center; gap: 26px; height: 56px; font: 14px var(--ui); overflow-x: auto; }
+nav b { font-family: var(--sf); font-size: 20px; font-weight: 700; white-space: nowrap; color: var(--acc); }
+nav a { text-decoration: none; color: var(--mut); white-space: nowrap; padding: 4px 0; border-bottom: 2px solid transparent; transition: .2s; }
+nav a.on { color: var(--tx); border-color: var(--pnk); }
+nav a:hover { color: var(--acc); }
+nav .sp { flex: 1; }
 
-    header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 700;
-      margin: 0;
-      cursor: pointer;
-      position: relative;
-    }
+.w { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+.hero { padding: 86px 0 66px; }
+.kick { font: 13px var(--ui); color: var(--mut); letter-spacing: .08em; text-transform: uppercase; font-weight: 500; }
+h1 { font: 700 clamp(54px, 11vw, 120px)/.9 var(--sf); letter-spacing: -.02em; margin: 18px 0 26px; }
+h1 em { font-weight: 500; font-style: italic; color: var(--acc); }
 
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
+.att { max-width: 720px; font-size: 21px; line-height: 1.6; font-family: var(--sf); }
+.att p { margin: 0 0 16px; }
+.att b { font-weight: 700; }
+.att span { border-radius: 4px; padding: 1px 2px; transition: background .3s, color .3s; cursor: default; }
+.hint { font: 13px var(--ui); color: var(--mut); margin-top: 6px; font-style: italic; }
 
-    nav a {
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      position: relative;
-      padding-bottom: 4px;
-    }
-    
-    nav a::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 1px;
-        bottom: 0;
-        left: 0;
-        background-color: var(--hover-color);
-        transition: width 0.3s ease-in-out;
-    }
+/* Current Role Box */
+.now { margin-top: 48px; background: var(--tx); color: var(--bg); border-radius: 8px; padding: 26px 30px; display: grid; grid-template-columns: auto 1fr; gap: 6px 26px; align-items: start; }
+.now .lb { font: 500 12px var(--ui); letter-spacing: .12em; color: var(--pnk); display: flex; align-items: center; gap: 10px; padding-top: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pnk); animation: pl 2.5s infinite; }
+@keyframes pl { 0% { box-shadow: 0 0 0 0 rgba(212,154,171,.6); } 100% { box-shadow: 0 0 0 12px rgba(212,154,171,0); } }
+.now h3 { margin: 0; font: 700 28px var(--sf); }
+.now h3 span { font-weight: 500; font-style: italic; color: var(--pnk); }
+.now .m { font: 13px var(--ui); color: #d0c8d1; margin-top: 2px; }
+.now ul { grid-column: 2; margin: 10px 0 0; padding-left: 20px; font-size: 15.5px; color: #ede8ef; line-height: 1.6; }
 
-    nav a:hover::after, nav a.active::after {
-        width: 100%;
-    }
+/* Stats */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 32px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.stats div { padding: 20px 0 18px 20px; border-left: 1px solid var(--line); }
+.stats div:first-child { border: 0; padding-left: 0; }
+.stats b { display: block; font: 700 38px/1.1 var(--sf); color: var(--acc); }
+.stats span { font: 13px var(--ui); color: var(--mut); }
 
-    /* --- Main Content & Sections --- */
-    main p {
-      margin-bottom: 1.5rem;
-    }
+section { padding: 76px 0 20px; }
+.sh { display: flex; align-items: baseline; gap: 18px; border-bottom: 1px solid var(--tx); padding-bottom: 12px; margin-bottom: 40px; }
+.sh i { font: 500 14px var(--ui); color: var(--acc); font-style: normal; }
+.sh h2 { margin: 0; font: 700 38px var(--sf); letter-spacing: -.01em; }
+.sh a { margin-left: auto; font: 500 14px var(--ui); white-space: nowrap; color: var(--acc); text-decoration: none; border-bottom: 1px solid var(--pnk); }
 
-    .content-section {
-        margin-top: 3rem;
-        animation: fadeIn 0.5s ease-in-out;
-    }
-    
-    .hidden {
-        display: none !important;
-    }
+/* Experience */
+.job { display: grid; grid-template-columns: 200px 1fr; gap: 6px 36px; padding: 0 0 40px; }
+.job .d { font: 13px/1.6 var(--ui); color: var(--mut); padding-top: 8px; font-weight: 500; }
+.job h3 { margin: 0; font: 700 24px var(--sf); }
+.job .co { font-style: italic; color: var(--acc); margin-bottom: 6px; font-family: var(--sf); font-size: 19px; }
+.job ul, .job p { margin: 8px 0 0; padding-left: 18px; color: #443c47; font-size: 16px; }
+.job p { padding-left: 0; }
+.job .stack { font: 13px var(--ui); color: var(--mut); margin-top: 12px; }
+.badge { font: 600 10px var(--ui); background: var(--pnk); color: #fff; padding: 3px 8px; border-radius: 12px; letter-spacing: .08em; vertical-align: 4px; margin-left: 10px; }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+/* Lists / Rows */
+.rows > * { display: grid; grid-template-columns: 46px 1fr auto; gap: 4px 20px; padding: 20px 0; border-bottom: 1px solid var(--line); text-decoration: none; transition: .25s; align-items: center; }
+.rows a:hover { padding-left: 12px; background: var(--warm); }
+.rows .n { font: 13px var(--ui); color: var(--pnk); font-weight: 500; }
+.rows .t { font: 700 21px/1.3 var(--sf); }
+.rows .k { grid-column: 2; font: 13px var(--ui); color: var(--mut); }
+.rows .b { font: 13px var(--ui); color: var(--mut); grid-row: 1; grid-column: 3; white-space: nowrap; }
 
-    .content-section h2 {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.75rem;
-        font-weight: 700;
-        margin-bottom: 2.5rem;
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 0.75rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .publication-list .item {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        margin-bottom: 1.5rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px dashed var(--border-color);
-    }
-    .publication-list .item:last-child {
-        border-bottom: none;
-    }
-    
-    .publication-list .item-details {
-        font-size: 0.9rem;
-        color: #7f8c8d;
-        margin-top: 0.2rem;
-    }
-    
-    .publication-list .item-year {
-        margin-left: 2rem;
-        flex-shrink: 0;
-        text-align: right;
-    }
+/* Cards (Lab) */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0; border-top: 1px solid var(--tx); border-left: 1px solid var(--line); }
+.card { padding: 28px 24px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); transition: .3s; background: var(--bg); }
+.card:hover { background: var(--warm); }
+.card .st { font: 600 11px var(--ui); letter-spacing: .12em; color: var(--mut); display: flex; justify-content: space-between; }
+.card .st.on { color: var(--acc); }
+.card h3 { margin: 12px 0 10px; font: 700 24px/1.2 var(--sf); }
+.card p { margin: 0; color: #443c47; font-size: 15.5px; line-height: 1.6; }
+.seg { display: flex; gap: 4px; margin-top: 20px; }
+.seg i { flex: 1; height: 3px; background: var(--line); border-radius: 2px; }
+.seg i.f { background: var(--pnk); }
 
-    /* --- Experience Timeline --- */
-    .timeline {
-        border-left: 2px solid var(--border-color);
-        margin-left: 1rem;
-        padding-left: 2rem;
-        margin-top: 2rem;
-    }
+.cad { font: 14.5px var(--ui); color: var(--mut); margin-bottom: 22px; }
+.cad b { color: var(--acc); font-weight: 600; }
+.pills { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.pills button { font: 13px var(--ui); font-weight: 500; background: none; color: var(--mut); border: 1px solid var(--line); border-radius: 20px; padding: 6px 16px; cursor: pointer; transition: .2s; }
+.pills button:hover { border-color: var(--pnk); color: var(--tx); }
+.pills button.on { background: var(--tx); color: var(--bg); border-color: var(--tx); }
 
-    .timeline-item {
-        margin-bottom: 3rem;
-        position: relative;
-    }
+/* Moodboard */
+.mood { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; border-top: 1px solid var(--tx); border-left: 1px solid var(--line); }
+.mood .card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; margin-bottom: 16px; background: var(--warm); border-radius: 4px; filter: grayscale(0.8) sepia(0.2) contrast(1.1); transition: .5s; }
+.mood .card:hover img { filter: none; }
+.mood .card h3 { font-size: 22px; }
 
-    .timeline-item::before {
-        content: '';
-        position: absolute;
-        left: -2.35rem; /* center on the border */
-        top: 0.3rem;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: var(--background-color);
-        border: 2px solid var(--hover-color);
-        transition: background 0.3s ease;
-    }
+/* Footer Links */
+.links { display: flex; gap: 12px; flex-wrap: wrap; }
+.links a { font: 500 14px var(--ui); border: 1px solid var(--line); padding: 10px 20px; border-radius: 30px; text-decoration: none; transition: .3s; }
+.links a:hover { background: var(--acc); color: #fff; border-color: var(--acc); }
 
-    .timeline-item:hover::before {
-        background: var(--hover-color);
-    }
+footer { margin-top: 70px; padding: 32px 0 70px; border-top: 1px solid var(--line); color: var(--mut); font: 13px var(--ui); text-align: center; }
 
-    .timeline-date {
-        font-size: 0.85rem;
-        color: #7f8c8d;
-        margin-bottom: 0.25rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
+/* Animations */
+.rv { opacity: 0; transform: translateY(16px); transition: opacity .7s ease-out, transform .7s ease-out; }
+.rv.in { opacity: 1; transform: none; }
 
-    .timeline-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.3rem;
-        font-weight: 700;
-        margin: 0 0 0.2rem 0;
-    }
-
-    .timeline-company {
-        font-weight: 700;
-        margin-bottom: 0.75rem;
-        color: var(--text-color);
-        font-size: 0.95rem;
-    }
-
-    .timeline-desc {
-        font-size: 0.95rem;
-        color: #555;
-    }
-    
-    .timeline-desc ul {
-        padding-left: 1.2rem;
-        margin-top: 0.5rem;
-    }
-    
-    .timeline-desc li {
-        margin-bottom: 0.3rem;
-    }
-
-    /* --- Buttons & Modals --- */
-    .btn-outline {
-        font-family: 'Source Code Pro', monospace;
-        background: transparent;
-        border: 1px solid var(--text-color);
-        color: var(--text-color);
-        padding: 0.5rem 1.2rem;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-    }
-
-    .btn-outline:hover {
-        background: var(--text-color);
-        color: var(--background-color);
-    }
-
-    .modal-overlay {
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(253, 250, 246, 0.8);
-        backdrop-filter: blur(8px);
-        z-index: 10000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-    }
-
-    .modal-overlay.active {
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    .modal-content {
-        background: #fff;
-        padding: 3rem;
-        border-radius: 12px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        max-width: 500px;
-        width: 90%;
-        position: relative;
-        transform: translateY(20px) scale(0.95);
-        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-        border: 1px solid var(--border-color);
-    }
-
-    .modal-overlay.active .modal-content {
-        transform: translateY(0) scale(1);
-    }
-
-    .close-modal {
-        position: absolute;
-        top: 1.2rem;
-        right: 1.5rem;
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: #999;
-        background: none;
-        border: none;
-        transition: color 0.2s;
-    }
-
-    .close-modal:hover {
-        color: var(--hover-color);
-    }
-
-    .modal-content h3 {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.5rem;
-        margin-top: 0;
-        margin-bottom: 1.5rem;
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 0.5rem;
-    }
-
-    .modal-links {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .modal-links a {
-        display: flex;
-        align-items: center;
-        font-weight: 500;
-        padding: 0.8rem;
-        border-radius: 6px;
-        background: var(--background-color);
-        transition: all 0.2s ease;
-        border: none;
-    }
-    
-    .modal-links a svg {
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
-        fill: currentColor;
-        flex-shrink: 0;
-    }
-
-    .modal-links a:hover {
-        background: var(--text-color);
-        color: var(--background-color);
-    }
-
-    /* --- Links --- */
-    a {
-      color: var(--link-color);
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-
-    main a, .content-section a:not(.btn-outline):not(.modal-links a) {
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    a:hover, nav a:hover {
-      color: var(--hover-color);
-      border-bottom-color: var(--hover-color);
-    }
-
-    /* --- Moodboard Section --- */
-    .moodboard {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .moodboard-item {
-        background-color: var(--moodboard-bg1);
-        padding: 1.5rem;
-        border-radius: 8px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .moodboard-item:hover {
-        transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    }
-
-    .moodboard-item img {
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 4px;
-        margin-bottom: 1rem;
-        background: #ccc; /* Fallback */
-    }
-    
-    .moodboard-item h3 {
-        font-family: 'Playfair Display', serif;
-        margin-bottom: 0.5rem;
-    }
-    
-    .moodboard-item p {
-        font-size: 0.9rem;
-        line-height: 1.6;
-    }
-    
-    .moodboard-item.wide {
-        grid-column: span 2;
-    }
-    
-    .moodboard-item:nth-child(2n) {
-        background-color: var(--moodboard-bg2);
-    }
-
-    /* --- Footer Social Links --- */
-    footer {
-      margin-top: 6rem;
-      display: flex;
-      gap: 1.75rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    footer a { border: none !important; }
-
-    footer a svg {
-      width: 22px;
-      height: 22px;
-      fill: var(--text-color);
-      transition: fill 0.2s ease, transform 0.2s ease;
-    }
-
-    footer a:hover svg {
-      fill: var(--hover-color);
-      transform: translateY(-3px);
-    }
-    
-    /* --- Paper Plane Animation --- */
-    #paper-plane {
-        position: fixed;
-        width: 20px;
-        height: 20px;
-        opacity: 0;
-        pointer-events: none;
-        z-index: 9999;
-        will-change: transform, opacity;
-    }
-
-    #paper-plane.fly {
-        animation: fly-across-and-grow 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    }
-
-    @keyframes fly-across-and-grow {
-        0% { opacity: 1; transform: translate(0, 0) scale(0.2) rotate(-10deg); }
-        20% { transform: translate(20vw, -20vh) scale(0.5) rotate(10deg); }
-        80% { opacity: 1; transform: translate(80vw, -80vh) scale(1.2) rotate(30deg); }
-        100% { opacity: 0; transform: translate(100vw, -100vh) scale(1.5) rotate(45deg); }
-    }
-    
-    /* --- Responsive Design --- */
-    @media (max-width: 600px) {
-      body { padding: 2.5rem 1.5rem; }
-      header { flex-direction: column; align-items: flex-start; gap: 1rem; margin-bottom: 4rem; }
-      nav { display: flex; gap: 1rem; }
-      nav a { margin-left: 0; }
-      .publication-list .item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-      .publication-list .item-year { margin-left: 0; text-align: left; }
-      .moodboard-item.wide { grid-column: span 1; }
-      .timeline { padding-left: 1.5rem; }
-      .content-section h2 { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    }
-  </style>
+@media (max-width: 720px) {
+  .job { grid-template-columns: 1fr; gap: 12px; } .job .d { padding: 0; }
+  .stats { grid-template-columns: 1fr 1fr; } .stats div:nth-child(3) { border-left: 0; padding-left: 0; }
+  .now { grid-template-columns: 1fr; padding: 24px; } .now ul { grid-column: 1; padding-left: 16px; }
+  .rows > * { grid-template-columns: 34px 1fr; align-items: start; } .rows .b { grid-column: 2; grid-row: auto; padding: 0; }
+  nav .sp { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none!important; transition: none!important; } .rv { opacity: 1; transform: none; } }
+</style>
 </head>
 <body>
+<div id="bar"></div>
+<nav><div class="w"><b>S. R. Sinha</b><span class="sp"></span><a href="#about">about</a><a href="#exp">experience</a><a href="#research">research</a><a href="#lab">lab</a><a href="#notes">writing</a><a href="#personal">personal</a></div></nav>
 
-  <div id="paper-plane-container">
-      <svg id="paper-plane" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="#e74c3c" d="M511.6 36.86l-64 415.1c-1.5 9.734-7.375 18.22-15.97 23.05c-8.625 4.844-18.81 5.938-28.31 2.75L288 400H175.2c-12.31 0-23.75-6.469-30.06-16.94l-44.69-74.52l-96.13 47.12c-9.75 4.781-21.25 4.781-31 0c-9.75-4.781-15.62-14.25-15.62-24.38V320l192.8-192.8c12.75-12.75 31.5-12.75 44.25 0s12.75 31.5 0 44.25L128 336l21.19 35.31l128-62.75c12.12-5.938 26.38-5.938 38.5 0l128 62.75l51.31-334.3c1.375-8.875-2.375-17.81-9.875-23.12C494.2 1.188 484.8 .063 475.7 3.25L16 227.3c-9.25 3.188-15.75 11.44-15.75 21.31c0 9.875 6.5 18.12 15.75 21.31L128 296.5V416c0 12.31 6.469 23.75 16.94 30.06C151.4 452.5 158.7 456 166 456s14.62-3.5 20.94-10.06l44.69-74.52l112.5 55.12c9.5 4.688 20.31 4.688 29.81 0C382.9 421.8 388.5 412.8 388.5 403.1l64-415.1C453.9 28.38 449.1 19.38 441.8 13.12C434.5 6.875 425.2 4.063 416.5 5.25L32.19 68.88c-9.125 1.5-16.5 8.375-18.12 17.5s3.375 18.12 11.38 23.38L128 173.4V80c0-12.31 6.469-23.75 16.94-30.06C151.4 43.5 158.7 40 166 40s14.62 3.5 20.94 10.06l208-102.7C404.8-1.562 414.8-1.562 423.7 3.125C432.7 7.812 438.3 17.62 437.9 27.25l-51.31 334.3l-128-62.75c-12.12-5.938-26.38-5.938-38.5 0L91.81 360.8l-21.19-35.31l256-125.5C339.4 193.9 345.8 184.1 345.8 174.2s-6.5-18.12-15.75-21.31L32.19 84.13L475.7 20.25C484.8 17.06 494.2 18.19 501.5 23.5C508.8 28.81 513.1 37.81 511.6 36.86z"/></svg>
-  </div>
+<header class="hero" id="about"><div class="w">
+<div class="kick">Computer Engineering · NMIMS Mumbai</div>
+<h1>Samridhi<br><em>Raj Sinha</em></h1>
+<div class="att" id="att">
+<p>I am an undergraduate in Computer Engineering at NMIMS Mumbai, passionate about research in artificial intelligence. My interests center on <b>Language Models</b> and <b>Computer Vision</b>, and I’m particularly curious about exploring <b>AI evaluation</b> and the <b>mechanistic interpretability</b> of these models.</p>
+<p>What excites me most is applying these technologies to solve real-world problems—work that is both innovative and meaningful.</p>
+</div>
+<div class="hint">↑ hover over the text: a soft highlighter interaction map</div>
 
-  <header>
-    <h1 id="name-heading">Samridhi Raj Sinha</h1>
-    <nav id="nav-menu">
-      <a data-target="about" class="active">About</a>
-      <a data-target="experience">Experience</a>
-      <a data-target="research">Research</a>
-      <a data-target="writing">Writing</a>
-      <a data-target="personal">Personal</a>
-    </nav>
-  </header>
+<div class="now"><div class="lb"><span class="dot"></span>NOW</div>
+<div><h3>Software Engineer <span>at Nomura</span></h3><div class="m">Mumbai, India (Hybrid) · Jan 2026 – Present</div></div>
+<ul><li>Full-stack ticket automation tool: ticket creation down from 20 minutes to 1 minute.</li><li>Vector embeddings and RAG for code-based search.</li><li>Agentic data lineage creation in React.</li></ul></div>
 
-  <main id="about" class="content-section">
-    <p>
-      I am an undergraduate in Computer Engineering at NMIMS Mumbai, passionate about research in artificial intelligence. My interests center on <strong>Language Models</strong> and <strong>Computer Vision</strong>, and I’m particularly curious about exploring <strong>AI evaluation</strong> and the <strong>mechanistic interpretability</strong> of these models.
-    </p>
-    <p>
-      What excites me most is applying these technologies to solve real-world problems—work that is both innovative and meaningful.
-    </p>
-    <p>
-      Outside of tech, I love reading, watching good films, and exploring little things that make life interesting. There’s so much I want to learn and so many paths I’d like to explore—I just hope I get to experience most of them.
-    </p>
-  </main>
+<div class="stats"><div><b data-n="50" data-s="+">0</b><span>multilingual benchmarks in EKA-EVAL</span></div><div><b data-n="300" data-s="+">0</b><span>studies in the code-switching survey</span></div><div><b data-n="6" data-s="">0</b><span>research &amp; engineering roles</span></div><div><b data-n="5" data-s="">0</b><span>papers &amp; preprints</span></div></div>
+</div></header>
 
-  <!-- NEW EXPERIENCE SECTION -->
-  <section id="experience" class="content-section hidden">
-    <h2>
-        Experience 
-        <button class="btn-outline" id="open-resume-btn">View Resume & Docs</button>
-    </h2>
-    <div class="timeline">
-        
-        <div class="timeline-item">
-            <div class="timeline-date">Jan 2026 - Present • Mumbai, India (Hybrid)</div>
-            <h3 class="timeline-title">Software Engineer Intern</h3>
-            <div class="timeline-company">Nomura</div>
-            <div class="timeline-desc">
-                <ul>
-                    <li>Developed a full-stack ticket automation tool, reducing ticket creation time from 20 minutes to 1 minute.</li>
-                    <li>Wrote scripts for generating vector embeddings and implemented RAG (Retrieval-Augmented Generation) for code-based search.</li>
-                    <li>Worked on a React-based project for agentic data lineage creation.</li>
-                    <li><strong>Tech Stack:</strong> React, Python, FastAPI, SQL, Shell, Linux, FAISS, LLMs.</li>
-                </ul>
-            </div>
-        </div>
+<section id="exp"><div class="w">
+<div class="sh rv"><i>01</i><h2>Experience</h2><a href="SamridhiRajSinha_CV.pdf">View Resume &amp; Docs ↗</a></div>
+<div class="job rv"><div class="d">Jan 2026 - Present<br>Mumbai, India</div><div><h3>Software Engineer Intern<span class="badge">NOW</span></h3><div class="co">Nomura</div><ul><li>Developed a full-stack ticket automation tool, reducing ticket creation time from 20 minutes to 1 minute.</li><li>Wrote scripts for generating vector embeddings and implemented RAG (Retrieval-Augmented Generation) for code-based search.</li><li>Worked on a React-based project for agentic data lineage creation.</li></ul><div class="stack">Tech Stack: React, Python, FastAPI, SQL, Shell, Linux, FAISS, LLMs.</div></div></div>
+<div class="job rv"><div class="d">Jul 2025 - Jan 2026</div><div><h3>AI Research Intern</h3><div class="co">Lingo Labs</div><ul><li>Built the zero-code web UI and modular CLI for EKA-EVAL, supporting evaluation across 50+ multilingual benchmarks.</li><li>Co-authored a large-scale survey on Code-Switched NLP in the era of LLMs, covering 300+ studies across tasks, datasets, and languages.</li></ul></div></div>
+<div class="job rv"><div class="d">May 2025 - Jul 2025<br>Gandhinagar, India</div><div><h3>AI Researcher (SRIP 2025)</h3><div class="co">Indian Institute of Technology Gandhinagar</div><p>Selected for the prestigious SRIP 2025 program as a Research Intern under Dr. Mayank Singh, working on the project “Building Indic Benchmarks for LLMs” - a part of Project EKΛ, India’s 120B-parameter multilingual open source model initiative.</p></div></div>
+<div class="job rv"><div class="d">Nov 2024 - Mar 2025<br>Remote</div><div><h3>AI Engineer Intern</h3><div class="co">ResoluteAI Software</div><ul><li>Automated code documentation using CrewAI/LangChain agentic workflows to parse company’s GitHub repos, classify codebases, and generate standardised docs, cutting manual work 50% via RAG-enhanced context awareness.</li><li>Built LinkedIn analytics platform with multi-agent AI integrating FastAPI backend for post generation and React &amp; Typescript frontend real time social media business analytics dashboard.</li></ul></div></div>
+<div class="job rv"><div class="d">Sep 2024 - Jul 2025<br>Mumbai, India</div><div><h3>AI/ML Research Intern</h3><div class="co">Nanavati Max Super Speciality Hospital</div><p>Worked on a project titled ‘Estimating Breast Tumor Bed Volume using Pre &amp; Post-op scans with Surgical Clips and AI models’ to aid in radiotherapy treatment planning.</p></div></div>
+<div class="job rv"><div class="d">May 2024 - Jul 2024<br>Mumbai, India</div><div><h3>AI &amp; ML Engineer Intern</h3><div class="co">Jio Platforms Limited (JPL)</div><ul><li>Enhanced data processing efficiency by developing an automatic annotator tool using Python and NLP techniques (FastAPI, spaCy), improving the process by 30%.</li><li>Implemented a low-code, multi-agent system using CrewAI, enabling efficient task automation and intelligent agent collaboration, resulting in a 40% reduction in development timelines.</li></ul></div></div>
+</div></section>
 
-        <div class="timeline-item">
-            <div class="timeline-date">Jul 2025 - Jan 2026</div>
-            <h3 class="timeline-title">AI Research Intern</h3>
-            <div class="timeline-company">Lingo Labs</div>
-            <div class="timeline-desc">
-                <ul>
-                    <li>Built the zero-code web UI and modular CLI for EKA-EVAL, supporting evaluation across 50+ multilingual benchmarks.</li>
-                    <li>Co-authored a large-scale survey on Code-Switched NLP in the era of LLMs, covering 300+ studies across tasks, datasets, and languages.</li>
-                </ul>
-            </div>
-        </div>
+<section id="research"><div class="w">
+<div class="sh rv"><i>02</i><h2>Selected Research</h2><a href="https://scholar.google.com/citations?hl=en&user=-OvbUpBIv6AC">Google Scholar ↗</a></div>
+<div class="rows rv">
+<a href="https://arxiv.org/abs/2510.07037"><span class="n">[01]</span><span class="t">Beyond Monolingual Assumptions: A Survey on Code-Switched NLP in the Era of Large Language Models across Modalities</span><span class="b">2025 · PDF ↗</span><span class="k">arxiv preprint</span></a>
+<a href="https://arxiv.org/abs/2507.01853"><span class="n">[02]</span><span class="t">Eka-Eval: A Comprehensive Evaluation Framework for Large Language Models in Indian Languages</span><span class="b">2025 · PDF ↗</span><span class="k">arxiv preprint</span></a>
+<a href="https://drive.google.com/drive/u/0/search?q=Nanavati"><span class="n">[03]</span><span class="t">Deep Learning-Based Automated Delineation of Breast Tumor Bed Volumes for Post-Operative Radiotherapy Planning Post Breast-Conservation Surgery</span><span class="b">2025 · View ↗</span><span class="k">publication ongoing</span></a>
+<a href="https://drive.google.com/file/d/1HOZtSFRHL0sV82iX6jlJGX8CcyZwL8tI/view?usp=sharing"><span class="n">[04]</span><span class="t">Towards Intelligent Offline Proctoring: AI-Driven Spatio-Temporal Behavioral Analysis</span><span class="b">2025 · PDF ↗</span><span class="k">IEEE publishing ongoing</span></a>
+<a href="https://doi.org/10.21203/rs.3.rs-7455685/v1"><span class="n">[05]</span><span class="t">SpectraViT: A Novel Hybrid Architecture for Enhanced Melanoma Classification</span><span class="b">2024 · PDF ↗</span><span class="k">preprint</span></a>
+</div></div></section>
 
-        <div class="timeline-item">
-            <div class="timeline-date">May 2025 - Jul 2025 • Gandhinagar, India</div>
-            <h3 class="timeline-title">AI Researcher (SRIP 2025)</h3>
-            <div class="timeline-company">Indian Institute of Technology Gandhinagar</div>
-            <div class="timeline-desc">
-                Selected for the prestigious SRIP 2025 program as a Research Intern under Dr. Mayank Singh, working on the project "Building Indic Benchmarks for LLMs" - a part of Project EKΛ, India’s 120B-parameter multilingual open source model initiative.
-            </div>
-        </div>
+<section id="lab"><div class="w">
+<div class="sh rv"><i>03</i><h2>The Lab</h2><a href="https://github.com/sam22ridhi">GitHub ↗</a></div>
+<p class="cad rv">Open-source evaluation, inference and training. Each project ships code, a reproducible eval and a write-up.</p>
+<div class="grid rv" id="projects"></div>
+</div></section>
 
-        <div class="timeline-item">
-            <div class="timeline-date">Nov 2024 - Mar 2025 • Remote</div>
-            <h3 class="timeline-title">AI Engineer Intern</h3>
-            <div class="timeline-company">ResoluteAI Software</div>
-            <div class="timeline-desc">
-                <ul>
-                    <li>Automated code documentation using CrewAI/LangChain agentic workflows to parse company’s GitHub repos, classify codebases, and generate standardised docs, cutting manual work 50% via RAG-enhanced context awareness.</li>
-                    <li>Built LinkedIn analytics platform with multi-agent AI integrating FastAPI backend for post generation and React & Typescript frontend real time social media business analytics dashboard.</li>
-                </ul>
-            </div>
-        </div>
+<section id="notes"><div class="w">
+<div class="sh rv"><i>04</i><h2>Selected Writing</h2></div>
+<div class="cad rv">cadence: <b>2 posts / week</b> · Tue: something I learned · Fri: an experiment with numbers</div>
+<div class="pills rv" id="pills"></div>
+<div class="rows rv" id="posts"></div>
+</div></section>
 
-        <div class="timeline-item">
-            <div class="timeline-date">Sep 2024 - Jul 2025 • Mumbai, India</div>
-            <h3 class="timeline-title">AI/ML Research Intern</h3>
-            <div class="timeline-company">Nanavati Max Super Speciality Hospital</div>
-            <div class="timeline-desc">
-                Worked on a project titled 'Estimating Breast Tumor Bed Volume using Pre & Post-op scans with Surgical Clips and AI models' to aid in radiotherapy treatment planning.
-            </div>
-        </div>
+<section id="personal"><div class="w">
+<div class="sh rv"><i>05</i><h2>Moodboard</h2></div>
+<p class="rv" style="max-width:640px;margin:-10px 0 32px;color:var(--mut);font-size:18px">Outside of tech, I love reading, watching good films, and exploring little things that make life interesting. There’s so much I want to learn and so many paths I’d like to explore—I just hope I get to experience most of them.</p>
+<div class="mood rv">
+<div class="card"><img src="samss.jpg" alt="Favorite film snippet" loading="lazy"><h3>Cinema Lover</h3><p>Exploring narratives from around the world. Currently revisiting the works of Satyajit Ray.</p></div>
+<div class="card"><h3>Currently Reading</h3><p>“The Midnight Library” by Matt Haig. A heartfelt story about second chances and all the lives we could have lived.</p></div>
+<div class="card"><img src="www.jpg" alt="Album cover" loading="lazy"><h3>On Repeat</h3><p>The soothing sounds of wave to earth.</p></div>
+<div class="card"><h3>Side Quest</h3><p>Swimming and marathons! And getting back to my old piano and rubik cube skills.</p></div>
+</div>
+<div class="sh rv" style="margin-top:64px"><i>06</i><h2>Documents &amp; Links</h2></div>
+<div class="links rv"><a href="SamridhiRajSinha_CV.pdf">Samridhi_Raj_Resume.pdf</a><a href="https://github.com/sam22ridhi">GitHub</a><a href="https://www.linkedin.com/in/samridhi-raj-sinha-a96520217/">LinkedIn</a><a href="https://x.com/samisindilemma">X</a><a href="https://scholar.google.com/citations?hl=en&user=-OvbUpBIv6AC">Scholar</a><a href="https://letterboxd.com/samiee22/">Letterboxd</a></div>
+</div></section>
+<footer><div class="w">© 2026 Samridhi Raj Sinha</div></footer>
 
-        <div class="timeline-item">
-            <div class="timeline-date">May 2024 - Jul 2024 • Mumbai, India</div>
-            <h3 class="timeline-title">AI & ML Engineer Intern</h3>
-            <div class="timeline-company">Jio Platforms Limited (JPL)</div>
-            <div class="timeline-desc">
-                <ul>
-                    <li>Enhanced data processing efficiency by developing an automatic annotator tool using Python and NLP techniques (FastAPI, spaCy), improving the process by 30%.</li>
-                    <li>Implemented a low-code, multi-agent system using CrewAI, enabling efficient task automation and intelligent agent collaboration, resulting in a 40% reduction in development timelines.</li>
-                    <li>Gained hands-on experience in developing, collaborating and optimising complex data processing workflows.</li>
-                </ul>
-            </div>
-        </div>
+<script>
+const PROJECTS=[
+{s:"IN PROGRESS",on:1,n:"Indic-Eval Failure Atlas",d:"Cluster where open models fail across EKA-EVAL’s multilingual benchmarks and publish the error taxonomy.",p:2},
+{s:"PLANNED",n:"Judge-the-Judge",d:"Measure how reliable LLM-as-a-judge is across languages: agreement, position bias and verbosity bias.",p:1},
+{s:"PLANNED",n:"Inference Bench: vLLM vs llama.cpp",d:"Reproducible latency, throughput and quality benchmarks for small open models on consumer hardware.",p:0},
+{s:"PLANNED",n:"Tiny Model, Tiny Budget",d:"Fine-tune a small open model with LoRA/QLoRA on an Indic task and report cost vs. quality curves.",p:0},
+{s:"PLANNED",n:"Probing Code-Switching",d:"Use linear probes and activation patching to see where a model represents language switches.",p:0},
+{s:"PLANNED",n:"Quantization Regression Tests",d:"Which benchmarks break first when you go 16→8→4-bit? Find the canary tasks.",p:0}];
+const POSTS=[
+{t:"Life is a Fig Tree",k:"personal",y:"2024",u:"https://medium.com/@samridhiraj04/life-is-a-fig-tree-a2b3cd223941",c:"personal philosophy"},
+{t:"Beyond Earth-Unravelling the Fermi Paradox",k:"personal",y:"2023",u:"https://medium.com/@samridhiraj04/beyond-earth-unravelling-the-fermi-paradox-ac6bdb1ec9e3",c:"space exploration"},
+{t:"What I learned building a 50+ benchmark eval harness",k:"evals",y:"next up",c:"EKA-EVAL lessons"},
+{t:"How KV-cache and paged attention make inference fast",k:"inference",y:"queued",c:"concept note"},
+{t:"LoRA from scratch: what the rank actually does",k:"training",y:"queued",c:"experiment"},
+{t:"A gentle intro to mechanistic interpretability",k:"interp",y:"queued",c:"concept note"}];
+const $=s=>document.querySelector(s);
 
-    </div>
-  </section>
+/* Render Lab */
+$("#projects").innerHTML=PROJECTS.map(x=>`<div class="card"><div class="st ${x.on?'on':''}"><span>${x.s}</span></div><h3>${x.n}</h3><p>${x.d}</p><div class="seg">${[0,1,2,3,4].map(i=>`<i class="${i<x.p?'f':''}"></i>`).join("")}</div></div>`).join("");
 
-  <section id="research" class="content-section hidden">
-    <h2>Selected Research</h2>
-    <div class="publication-list">
-        
-        <div class="item">
-            <div class="item-content">
-                <p><a href="https://arxiv.org/abs/2510.07037" target="_blank">Beyond Monolingual Assumptions: A Survey on Code-Switched NLP in the Era of Large Language Models across Modalities</a></p>
-                <p class="item-details">arxiv preprint</p>
-            </div>
-            <div class="item-year">2025 <a href="https://arxiv.org/pdf/2510.07037" target="_blank">PDF</a></div>
-        </div>
+/* Render Posts */
+let f="all";const tags=["all",...new Set(POSTS.map(p=>p.k))];
+function draw(){$("#pills").innerHTML=tags.map(t=>`<button class="${t==f?'on':''}" data-t="${t}">${t}</button>`).join("");
+let n=0;$("#posts").innerHTML=POSTS.filter(p=>f=="all"||p.k==f).map(p=>{n++;const i=`<span class="n">[${String(n).padStart(2,"0")}]</span><span class="t">${p.t}</span><span class="b">${p.y}${p.u?' · Read ↗':''}</span><span class="k">${p.k} · ${p.c}</span>`;return p.u?`<a href="${p.u}">${i}</a>`:`<div style="opacity:.6">${i}</div>`}).join("")}
+$("#pills").onclick=e=>{if(e.target.dataset.t){f=e.target.dataset.t;draw()}};draw();
 
-        <div class="item">
-            <div class="item-content">
-                <p><a href="https://arxiv.org/abs/2507.01853" target="_blank">Eka-Eval: A Comprehensive Evaluation Framework for Large Language Models in Indian Languages</a></p>
-                <p class="item-details">arxiv preprint</p>
-            </div>
-            <div class="item-year">2025 <a href="https://arxiv.org/pdf/2507.01853" target="_blank">PDF</a></div>
-        </div>
+/* Soft Highlighter Interaction */
+const G={lm:["Language","Models","language","models","artificial","intelligence","AI"],cv:["Computer","Vision"],ev:["evaluation","exploring","curious"],ip:["mechanistic","interpretability"],rw:["real-world","problems","innovative","meaningful","technologies","applying"]};
+const gid=w=>{w=w.replace(/[.,—]/g,"");for(const k in G)if(G[k].includes(w))return k;return null};
+const toks=[];
+document.querySelectorAll("#att p").forEach(p=>{const h=p.innerHTML.replace(/<b>|<\/b>/g,"");p.innerHTML=h.split(/\s+/).map(w=>{const s=document.createElement("span");s.textContent=w;return s.outerHTML}).join(" ");});
+document.querySelectorAll("#att span").forEach((s,i)=>{s._g=gid(s.textContent);toks.push(s)});
+const att=$("#att");
+function show(i){toks.forEach((s,j)=>{let w=j==i?1:.4*Math.exp(-Math.abs(i-j)/2.5);if(toks[i]._g&&toks[i]._g===s._g&&j!=i)w=Math.max(w,.85);if(toks[i]._g&&s._g&&toks[i]._g!==s._g&&j!=i)w=Math.max(w,.2);s.style.background=`rgba(212,154,171,${(w*.6).toFixed(2)})`;s.style.color=w>.75?"#2a222e":""})}
+att.addEventListener("pointerover",e=>{const i=toks.indexOf(e.target);if(i>-1)show(i)});
+att.addEventListener("pointerleave",()=>toks.forEach(s=>{s.style.background="";s.style.color=""}));
 
-        <div class="item">
-            <div class="item-content">
-                <p><a href="https://drive.google.com/drive/u/0/search?q=Nanavati" target="_blank">Deep Learning-Based Automated Delineation of Breast Tumor Bed Volumes for Post-Operative Radiotherapy Planning Post Breast-Conservation Surgery: A Feasibility Study</a></p>
-                <p class="item-details">publication ongoing</p>
-            </div>
-            <div class="item-year">2025 <a href="https://drive.google.com/drive/u/0/search?q=Nanavati" target="_blank">View</a></div>
-        </div>
-        
-        <div class="item">
-            <div class="item-content">
-                <p><a href="https://drive.google.com/file/d/1HOZtSFRHL0sV82iX6jlJGX8CcyZwL8tI/view?usp=sharing" target="_blank">Towards Intelligent Offline Proctoring: AI-Driven Spatio-Temporal Behavioral Analysis</a></p>
-                <p class="item-details">IEEE publishing ongoing</p>
-            </div>
-            <div class="item-year">2025 <a href="https://drive.google.com/file/d/1HOZtSFRHL0sV82iX6jlJGX8CcyZwL8tI/view?usp=sharing" target="_blank">PDF</a></div>
-        </div>
+/* Count-up & Scroll Reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll(".rv").forEach(e=>io.observe(e));
+document.querySelectorAll("[data-n]").forEach(el=>{const n=+el.dataset.n,s=el.dataset.s;let t0;const st=t=>{t0=t0||t;const p=Math.min((t-t0)/1400,1);el.textContent=Math.round(n*(1-Math.pow(1-p,3)))+(p==1?s:"");if(p<1)requestAnimationFrame(st)};requestAnimationFrame(st)});
 
-      <div class="item">
-            <div class="item-content">
-                <p><a href="https://doi.org/10.21203/rs.3.rs-7455685/v1" target="_blank">SpectraViT: A Novel Hybrid Architecture for Enhanced Melanoma Classification</a></p>
-                <p class="item-details">preprint</p>
-            </div>
-            <div class="item-year">2024 <a href="https://www.researchsquare.com/article/rs-7455685/v1" target="_blank">PDF</a></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="writing" class="content-section hidden">
-    <h2>Selected Writing</h2>
-    <div class="publication-list">
-        <div class="item">
-            <div class="item-content">
-                <p><a href="https://medium.com/@samridhiraj04/life-is-a-fig-tree-a2b3cd223941" target="_blank">Life is a Fig Tree</a></p>
-                <p class="item-details">personal philosophy</p>
-            </div>
-            <div class="item-year">2024<a href="https://medium.com/@samridhiraj04/life-is-a-fig-tree-a2b3cd223941" target="_blank">Read</a></div>
-        </div>
-        <div class="item">
-            <div class="item-content">
-                <p><a href="https://medium.com/@samridhiraj04/beyond-earth-unravelling-the-fermi-paradox-ac6bdb1ec9e3" target="_blank">Beyond Earth-Unravelling the Fermi Paradox</a></p>
-                <p class="item-details">space exploration</p>
-            </div>
-            <div class="item-year">2023<a href="https://medium.com/@samridhiraj04/beyond-earth-unravelling-the-fermi-paradox-ac6bdb1ec9e3" target="_blank">Read</a></div>
-        </div>
-    </div>
-  </section>
-  
-  <section id="personal" class="content-section hidden">
-    <h2>Moodboard</h2>
-    <div class="moodboard">
-        <div class="moodboard-item wide">
-            <img src="samss.jpg" alt="Favorite film snippet" onerror="this.src='https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=1000';">
-            <h3>Cinema Lover</h3>
-            <p>Exploring narratives from around the world. Currently revisiting the works of Satyajit Ray.</p>
-        </div>
-        <div class="moodboard-item">
-            <h3>Currently Reading</h3>
-            <p>"The Midnight Library" by Matt Haig. A heartfelt story about second chances and all the lives we could have lived.</p>
-        </div>
-        <div class="moodboard-item">
-            <img src="www.jpg" alt="Album cover" onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=400';">
-            <h3>On Repeat</h3>
-            <p>The soothing sounds of wave to earth.</p>
-        </div>
-         <div class="moodboard-item">
-            <h3>Side Quest</h3>
-            <p>Swimming and marathons! And getting back to my old piano and rubik cube skills. </p>
-        </div>
-    </div>
-  </section>
-
-  <!-- Modal for Resume & Documents -->
-  <div id="resume-modal" class="modal-overlay">
-      <div class="modal-content">
-          <button class="close-modal" id="close-modal-btn">&times;</button>
-          <h3>Documents & Links</h3>
-          <div class="modal-links">
-              <!-- Resume Link -->
-              <a href="SamridhiRajSinha_CV.pdf" target="_blank" aria-label="Download Full Resume">
-                  <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-                  Samridhi_Raj_Resume.pdf
-              </a>
-          </div>
-      </div>
-  </div>
-
-  <footer>
-    <a href="https://x.com/samisindilemma" target="_blank" aria-label="Twitter"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.223.085a4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>
-    <a href="https://github.com/sam22ridhi" target="_blank" aria-label="GitHub"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
-    <a href="https://www.linkedin.com/in/samridhi-raj-sinha-a96520217/" target="_blank" aria-label="LinkedIn"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a>
-    <a href="mailto:samridhiraj04@gmail.com" aria-label="Email"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 5.457v13.909c0 .905-.732 1.636-1.636 1.636h-3.819V11.79L12 16.533 5.455 11.79v9.212H1.636C.732 21 0 20.268 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 3.28 24 4.435 24 5.457z"/></svg></a>
-    <a href="https://scholar.google.com/citations?hl=en&user=-OvbUpBIv6AC" target="_blank" aria-label="Google Scholar"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.242 13.769L0 9.5L12 0l12 9.5l-5.242 4.269C17.548 11.249 14.978 9 12 9s-5.548 2.249-6.758 4.769zM12 10c-3.314 0-6 2.686-6 6s2.686 6 6 6s6-2.686 6-6s-2.686-6-6-6z"/></svg></a>
-    <a href="https://letterboxd.com/samiee22/" target="_blank" aria-label="Letterboxd"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.12 12.03a3.03 3.03 0 11-6.06 0 3.03 3.03 0 016.06 0zm-7.6 0a1.57 1.57 0 11-3.13 0 1.57 1.57 0 013.13 0zM4.46 12.03a1.57 1.57 0 11-3.13 0 1.57 1.57 0 013.13 0zM24 4.1v15.8c0 2.26-1.84 4.1-4.1 4.1H4.1C1.84 24 0 22.16 0 19.9V4.1C0 1.84 1.84 0 4.1 0h15.8C22.16 0 24 1.84 24 4.1z"/></svg></a>
-  </footer>
-
-  <script>
-    // --- Paper Plane Animation ---
-    const nameHeading = document.getElementById('name-heading');
-    const paperPlane = document.getElementById('paper-plane');
-    const planeContainer = document.getElementById('paper-plane-container');
-
-    nameHeading.addEventListener('click', (event) => {
-        if (paperPlane.classList.contains('fly')) return;
-        const rect = nameHeading.getBoundingClientRect();
-        planeContainer.style.position = 'fixed';
-        planeContainer.style.left = `${rect.left + (rect.width / 2)}px`;
-        planeContainer.style.top = `${rect.top + (rect.height / 2)}px`;
-
-        paperPlane.classList.add('fly');
-        setTimeout(() => paperPlane.classList.remove('fly'), 2000);
-    });
-
-    // --- Tab Navigation Logic ---
-    const navLinks = document.querySelectorAll('nav a');
-    const sections = {
-        about: document.getElementById('about'),
-        experience: document.getElementById('experience'),
-        research: document.getElementById('research'),
-        writing: document.getElementById('writing'),
-        personal: document.getElementById('personal')
-    };
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', (event) => {
-            // Remove active state from all links
-            navLinks.forEach(n => n.classList.remove('active'));
-            // Add active state to clicked link
-            event.target.classList.add('active');
-
-            const targetId = event.target.dataset.target;
-            Object.values(sections).forEach(section => section.classList.add('hidden'));
-            
-            if (sections[targetId]) {
-                sections[targetId].classList.remove('hidden');
-            }
-        });
-    });
-
-    // --- Modal Logic ---
-    const openResumeBtn = document.getElementById('open-resume-btn');
-    const closeBtn = document.getElementById('close-modal-btn');
-    const modalOverlay = document.getElementById('resume-modal');
-
-    openResumeBtn.addEventListener('click', () => {
-        modalOverlay.classList.add('active');
-    });
-
-    closeBtn.addEventListener('click', () => {
-        modalOverlay.classList.remove('active');
-    });
-
-    // Close on click outside
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) {
-            modalOverlay.classList.remove('active');
-        }
-    });
-
-    // Fallback for missing images to keep aesthetic clean
-    document.querySelectorAll('img').forEach(img => {
-        img.addEventListener('error', function() {
-            this.style.display = 'none';
-        });
-    });
-  </script>
-
+/* Dynamic Nav & Scrollbar */
+const ids=["about","exp","research","lab","notes","personal"],links=[...document.querySelectorAll("nav a")];
+function sp(){const h=document.documentElement;$("#bar").style.width=scrollY/(h.scrollHeight-innerHeight)*100+"%";let c=0;ids.forEach((id,i)=>{if($("#"+id).getBoundingClientRect().top<innerHeight*.4)c=i});links.forEach((a,i)=>a.classList.toggle("on",i==c))}
+addEventListener("scroll",sp,{passive:true});sp();
+</script>
 </body>
 </html>
