@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Do multilingual models think in English? A Hindi logit lens — Samridhi Raj Sinha</title>
+<meta name="description" content="Interpretability notes: a logit lens on Hindi to Chinese translation in Qwen2.5-3B.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="post.css">
+</head>
+<body>
+<div id="bar"></div>
+<nav><div class="w"><b>S. R. Sinha</b><span class="sp"></span><a href="../index.html">about</a><a href="../blog.html" class="on">writing</a><a href="../index.html#research">research</a><a href="../index.html#lab">lab</a></div></nav>
+<aside id="toc"></aside>
+<article>
+<div class="kick">Interpretability Notes · 02</div>
+<h1>Do multilingual models think in English? A Hindi logit lens</h1>
+<div class="meta">Samridhi Raj Sinha · <time>November 2026</time> · <a href="https://github.com/sam22ridhi/mech-interp-experiments">code</a> · <a href="../indic_lens_and_sycophancy.ipynb">notebook</a></div>
+
+<div class="sum"><p><b>Summary.</b> I ask Qwen2.5-3B to translate a Hindi word into Chinese and use the logit lens to read its intermediate layers. The question, borrowed from Wendler et al. (2024) and moved to an Indian-language setting, is what the middle of the network “sounds like”. In my run, Latin-script tokens dominate the lens through most of the network, and the switch to Chinese happens abruptly, about 78% of the way through. That is suggestive of English-like intermediate states, but my test cannot separate English from other Latin-script tokens, and I explain why below.</p></div>
+
+<h2 id="s1"><i>1</i>Why this matters for Indic NLP</h2>
+<p>Most strong open models are trained on text that is overwhelmingly English. If a model routes Hindi through something English-like internally, that shapes what we should expect: errors may be English-centric, Indic benchmark scores may partly measure translation, and “multilingual ability” could be thinner than it looks. At Lingo Labs I worked on EKA-EVAL, a framework covering more than fifty multilingual benchmarks, and a recurring frustration was that a score says nothing about what happens inside. This note is a first step toward that.</p>
+
+<h2 id="s2"><i>2</i>Setup</h2>
+<p>The logit lens (<a href="logit-lens.html">note 01</a>) reads an intermediate residual stream through the model’s own output layer. The prompt is a few-shot pattern, Hindi word → Chinese word, so the correct next token is a Chinese character; the input is Devanagari and English is neither. If English-like content shows up in between, it is not because the task asked for it. At every layer I sum the lens’s probability over all vocabulary tokens in three scripts, and I also track the probability of the correct Chinese token. Results average 11 test nouns after 4 few-shot examples.</p>
+<pre>P = lens_last(shots + f'हिन्दी: "{h}" - 中文: "')   <span class="c"># [layers+1, vocab] at the last position</span>
+mass = P @ mask.T                                       <span class="c"># mass on Devanagari / Latin / CJK tokens</span></pre>
+
+<h2 id="s3"><i>3</i>Result</h2>
+<figure><div class="fig"><div id="c1"></div></div><figcaption><b>Figure 1.</b> Lens probability mass on tokens of each script, by layer, averaged over the test words (Qwen2.5-3B, 36 layers). The dotted line marks where Chinese first overtakes Latin.</figcaption></figure>
+<figure><div class="fig"><div id="c2"></div></div><figcaption><b>Figure 2.</b> Probability of the correct Chinese token by layer.</figcaption></figure>
+<p id="r1" class="stat"></p>
+<div class="found"><b class="h">What I found</b>
+<p><b>Latin dominates the middle.</b> From L1 through L27 Latin-script tokens carry roughly 18–83% of the lens mass, and above 45% in most of layers L14–L27. Chinese tokens stay under 15% of the mass until L27.</p>
+<p><b>The hand-over to Chinese is abrupt and late.</b> At L28 Chinese (44%) overtakes Latin (42%), and by L34 it holds 87% and by the output 96%. The correct Chinese character itself is below 0.1% until L27, 1.5% at L28, and reaches 58% only at the end. In this model, the decision to write Chinese seems to be made around layer 29 of 36.</p>
+<p><b>Devanagari is almost invisible.</b> Its mass is under 0.06% at every layer. I do not believe the model ignores a Hindi input; I suspect my classifier simply cannot see it (see below).</p></div>
+
+<h2 id="s4"><i>4</i>What could be wrong with this?</h2>
+<p class="note"><b>Latin is not the same as English.</b> Latin-script tokens include English words, but also code, names, transliterated Hindi and meaningless sub-word fragments. The measured mass is a proxy. The stronger test decodes against the specific English translation of each word, and the notebook now includes that measurement.</p>
+<p class="note"><b>Early-layer Latin mass is probably an artefact.</b> At L1 Latin mass is 83%. Early residual streams are far from the output basis, and decoding them through the output layer tends to yield junk sub-words that happen to be Latin. I would trust the mid-to-late layers much more than the early ones.</p>
+<p class="note"><b>Tokenization hides Hindi.</b> Qwen’s tokenizer splits Devanagari into many byte-level fragments, which a script classifier cannot label. The near-zero Devanagari curve is therefore uninformative about the input language.</p>
+<p class="note"><b>Small and plain.</b> Eleven concrete nouns, one model, one prompt format and a plain (untuned) lens, which is known to be less faithful in some models (Belrose et al., 2023). Presence of English-like content mid-network also does not show the model <em>relies</em> on it; that needs interventions.</p>
+
+<h2 id="s5"><i>5</i>What I would do next</h2>
+<p>Track the probability of the English translation token specifically (already in the updated notebook), repeat with Hindi→Telugu or Tamil on a model that handles them, swap in a tuned lens, and run the reverse direction (English→Hindi) to see whether the same mid-network structure appears when Hindi is the output.</p>
+
+<h2 id="s6"><i>6</i>References</h2>
+<ol class="refs">
+<li>Wendler et al. <em>Do Llamas Work in English? On the Latent Language of Multilingual Transformers.</em> 2024.</li>
+<li>nostalgebraist. <em>Interpreting GPT: the logit lens.</em> LessWrong, 2020.</li>
+<li>Belrose et al. <em>Eliciting Latent Predictions from Transformers with the Tuned Lens.</em> 2023.</li>
+<li>Qwen Team. <em>Qwen2.5</em> model family, 2024.</li>
+</ol>
+<div class="cite"><b>Cite as</b>Sinha, S. R. (2026). Do multilingual models think in English? A Hindi logit lens. Interpretability Notes 02. https://sam22ridhi.github.io/posts/indic-latent-language.html</div>
+<div class="pn"><a href="logit-lens.html"><span>Previous</span><b>Watching a prediction form: the logit lens on GPT-2</b></a><a href="sycophancy-steering.html"><span>Next</span><b>Can we steer sycophancy, and does it transfer to Hindi?</b></a></div>
+</article>
+<footer>© 2026 Samridhi Raj Sinha · <a href="../blog.html">all writing</a></footer>
+<script src="charts.js"></script>
+<script>
+const DATA={"model": "Qwen/Qwen2.5-3B", "layers": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36], "mass": [[0.0, 0.0, 0.0], [3.085874141106615e-06, 0.09278234839439392, 0.008755327202379704], [5.454772917801165e-07, 0.830944836139679, 0.00917493924498558], [8.524118584318785e-07, 0.6445951461791992, 0.010706492699682713], [1.4199317774910014e-06, 0.5405828356742859, 0.027929512783885002], [2.888066774175968e-06, 0.502069890499115, 0.013938971795141697], [3.110506895609433e-06, 0.2927042841911316, 0.010095447301864624], [2.3721877369098365e-06, 0.530645489692688, 0.012184000574052334], [1.666236676101107e-05, 0.3468831181526184, 0.01564273051917553], [6.833799034211552e-06, 0.17701007425785065, 0.00948160421103239], [5.494270953931846e-05, 0.3372008502483368, 0.01254565455019474], [3.584014484658837e-05, 0.3469793200492859, 0.025637773796916008], [8.257524314103648e-05, 0.3091388940811157, 0.02815808728337288], [7.820850441930816e-05, 0.2643032670021057, 0.028871120885014534], [1.9063665604335256e-05, 0.26150092482566833, 0.02198966033756733], [1.4033319530426525e-05, 0.4804390072822571, 0.030019890516996384], [2.27710679610027e-05, 0.43998080492019653, 0.040602367371320724], [4.80885173601564e-05, 0.28599464893341064, 0.04901444539427757], [5.849930676049553e-05, 0.49144312739372253, 0.08385879546403885], [0.0001172519478132017, 0.5483314394950867, 0.0724901631474495], [0.00011319586337776855, 0.5890244841575623, 0.056600507348775864], [0.00011856744094984606, 0.5681320428848267, 0.07237069308757782], [0.00013671467604581267, 0.5148067474365234, 0.0910833403468132], [0.00023467637947760522, 0.5456579923629761, 0.10659978538751602], [0.0002445864665787667, 0.5073835849761963, 0.07704833894968033], [0.0002368560672039166, 0.4450020492076874, 0.06945245712995529], [0.0005970716010779142, 0.561693549156189, 0.09055095165967941], [0.0001591775071574375, 0.49185094237327576, 0.07281467318534851], [0.00013987893180456012, 0.636079728603363, 0.14004336297512054], [6.0797239711973816e-05, 0.41528910398483276, 0.44379350543022156], [5.772591975983232e-05, 0.3132978677749634, 0.5624825954437256], [3.106749863945879e-05, 0.24439086019992828, 0.6927809715270996], [7.414720130327623e-06, 0.19381026923656464, 0.7834795117378235], [9.851140021055471e-06, 0.1772044152021408, 0.8157454133033752], [1.7833977835834958e-05, 0.15809880197048187, 0.8353092670440674], [5.437152867671102e-05, 0.12141785025596619, 0.8736965656280518], [7.41687836125493e-05, 0.03592582046985626, 0.9614077210426331]], "ptarget": [0.0, 2.0666730549123713e-08, 1.226632240225456e-09, 1.56148483032581e-09, 1.0504018099766199e-08, 7.458585571384901e-08, 5.742416675502682e-08, 4.141916676303481e-08, 1.1526483945090149e-07, 1.4409840787266148e-07, 3.5674111131811514e-07, 5.247670742392074e-07, 4.992115805180219e-07, 1.3181809208617778e-06, 3.260840230723261e-06, 5.308734398568049e-05, 1.214368694490986e-05, 3.281265526311472e-05, 0.00010303495946573094, 7.631326297996566e-05, 1.615235123608727e-05, 8.558527770219371e-05, 0.0001471428549848497, 0.0002698544994927943, 4.4535692723002285e-05, 6.399048288585618e-05, 0.00017040355305653065, 0.00010714580275816843, 0.0003604273370001465, 0.014522712677717209, 0.02449171617627144, 0.09647656232118607, 0.21955980360507965, 0.34913375973701477, 0.3993616998195648, 0.5484924912452698, 0.5783073902130127]};
+
+Promise.resolve(DATA).then(D=>{
+const xs=D.layers,col=k=>D.mass.map(r=>r[k]),lat=col(1),cjk=col(2),xl=xs.map(i=>i==0?"emb":"L"+(i-1));
+let cr=xs.findIndex((i,k)=>k>1&&cjk[k]>lat[k]);
+lineChart(document.getElementById("c1"),xs,[{y:col(0),c:"#8b7c8d",name:"Devanagari (input)"},{y:lat,c:"#2a222e",name:"Latin"},{y:cjk,c:"#89608e",name:"CJK (output)"}],{xlabels:xl,step:4,xlabel:"layer",ylabel:"lens probability mass",ymin:0,ymax:1,vline:cr>0?cr:null});
+const S=[{y:D.ptarget,c:"#89608e",name:"correct Chinese token"}];if(D.pen)S.push({y:D.pen,c:"#d49aab",name:"English translation token",dash:1});
+lineChart(document.getElementById("c2"),xs,S,{xlabels:xl,step:4,xlabel:"layer",ylabel:"probability",ymin:0});
+const ov=D.ptarget.findIndex(v=>v>0.5);
+document.getElementById("r1").textContent=`${D.model}: Chinese tokens first outweigh Latin ones at ${cr>0?xl[cr]:"no layer"}; the correct token first exceeds 50% at ${ov<0?"no layer":xl[ov]}; final-layer CJK mass ${(cjk.at(-1)*100).toFixed(0)}%.`;
+});
+
+</script>
+</body>
+</html>

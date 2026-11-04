@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Can we steer sycophancy, and does it transfer to Hindi? — Samridhi Raj Sinha</title>
+<meta name="description" content="Interpretability notes: measuring and steering sycophancy in Qwen2.5-3B, English versus Hindi.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="post.css">
+</head>
+<body>
+<div id="bar"></div>
+<nav><div class="w"><b>S. R. Sinha</b><span class="sp"></span><a href="../index.html">about</a><a href="../blog.html" class="on">writing</a><a href="../index.html#research">research</a><a href="../index.html#lab">lab</a></div></nav>
+<aside id="toc"></aside>
+<article>
+<div class="kick">Interpretability Notes · 03</div>
+<h1>Can we steer sycophancy, and does it transfer to Hindi?</h1>
+<div class="meta">Samridhi Raj Sinha · <time>November 2026</time> · <a href="https://github.com/sam22ridhi/mech-interp-experiments">code</a> · <a href="../indic_lens_and_sycophancy.ipynb">notebook</a></div>
+
+<div class="sum"><p><b>Summary.</b> Sycophancy, a model agreeing with a user’s stated belief even when it is wrong, is a documented failure of assistants (Perez et al., 2022; Sharma et al., 2023). I measure it on 14 false claims in English and in Hindi, learn an “agree” direction from the English prompts, steer Qwen2.5-3B with it, and check whether it transfers. The baseline gap is large in English (+41 points) and smaller in Hindi (+24), but the steering result is mixed: I find a strong generic “say yes” direction at one layer and <b>no clean evidence of a sycophancy-specific one</b>.</p></div>
+
+<h2 id="s1"><i>1</i>The measurement</h2>
+<p>Each false claim (for example, that the capital of India is Mumbai) is shown in two framings. In the <b>belief</b> framing a user says they are sure the claim is true and asks if the model agrees. In the <b>neutral</b> framing the model is simply asked if the claim is true. Answers are lettered (A)/(B) and I swap which letter means “yes”, so a letter preference cancels. Sycophancy here is the <em>gap</em>: how much more probability goes to “yes” when the user insists.</p>
+<div class="fig" id="base"></div>
+<div class="found"><b class="h">What I found</b>
+<p>Stating a belief raises the chance of agreeing with a false claim from 9% to 49% in English (+41 points) and from 35% to 59% in Hindi (+24 points). Two things stand out. Hindi prompts get <em>more</em> false agreement than English ones in both framings, and the gap between them (35% vs 9%) is largest with no user pressure at all. So in Hindi the model is more willing to endorse a false statement on its own, which looks like weaker factual grounding more than extra social pressure. Caveat: the Hindi sentences are my own translations.</p></div>
+
+<h2 id="s2"><i>2</i>Steering with an activation difference</h2>
+<p>Contrastive activation addition (Rimsky et al., 2023; see also Turner et al., 2023, and Zou et al., 2023) averages the difference in internal activations between two kinds of answer, here “yes” and “no” on the English belief prompts, then adds a multiple of that direction to the residual stream at one layer. To limit overfitting each claim is tested with a direction learned from the <em>other</em> 13, and strength is a fraction of the typical residual-stream norm.</p>
+<pre>v = mean(act[yes_letter] - act[no_letter])          <span class="c"># English belief prompts, one layer</span>
+h_layer += alpha * typical_norm * v / v.norm()      <span class="c"># forward hook, all positions</span></pre>
+
+<h2 id="s3"><i>3</i>Results</h2>
+<p>Solid lines are the belief framing, dashed are neutral; plum is English, dark is Hindi.</p>
+<figure><div class="fig" id="ch"></div><figcaption><b>Figure 1.</b> Mean probability of answering “yes” to a false claim as steering strength changes, at three layers (14 claims × 2 answer orders per point).</figcaption></figure>
+<div class="fig" id="tab"></div>
+<div class="found"><b class="h">What I found</b>
+<p><b>Layer 19 has a strong yes-direction, but not a sycophancy-specific one.</b> At a small push (+0.1) English “yes” jumps from 49% to 85% in the belief framing and from 9% to 43% in the neutral framing. Both move by about 35 points, so the gap between them does not change. At +0.2 the neutral framing rises further (68%) while the belief framing falls back (80%), so the gap closes. This is what a general agree/yes direction would do.</p>
+<p><b>It partly transfers to Hindi.</b> The same English-learned vector at layer 19 raises Hindi neutral “yes” from 35% to 62% (+27 points) at +0.1. A direction learned only from English changing Hindi behaviour is mild evidence for shared representation across the two languages. Hindi belief prompts barely move (+6), which fits a ceiling effect, since they start higher.</p>
+<p><b>Elsewhere it is noisy.</b> At layers 14 and 25 the effects at small strengths are at most about eight points, within what 28 prompts can produce. At strength 0.4 several curves go <em>up at both signs</em> (English neutral at layer 14: 27% at −0.4, 9% at 0, 44% at +0.4), which looks like the intervention damaging the model rather than steering a concept. At layer 14 the Hindi belief curve falls steadily as strength increases (83% to 40%), the opposite sign from English.</p>
+<p><b>Bottom line:</b> I found a yes-direction, not a sycophancy dial. The one hint of selectivity, a −0.1 push at layer 19 cutting English belief “yes” from 49% to 33% while neutral barely moves, vanishes at −0.2, so I would not claim it.</p></div>
+
+<h2 id="s4"><i>4</i>What could be wrong with this?</h2>
+<p class="note"><b>Tiny sample.</b> Fourteen hand-written claims. Each of the 28 prompts behind a point is worth about 3.6 percentage points, so differences of a few points are noise. There are no confidence intervals in this version.</p>
+<p class="note"><b>A “yes” direction is not a sycophancy direction.</b> The direction comes from agree-versus-disagree answers, so it can simply encode “say yes”. That is why the neutral framing is plotted: only a change in the gap between solid and dashed lines supports a sycophancy-specific story.</p>
+<p class="note"><b>Base model, one template.</b> Assistant-tuned models show stronger sycophancy and may respond differently. A random direction of equal norm, the baseline I am missing, would tell us how much of each effect is just perturbation.</p>
+<p class="note"><b>My Hindi.</b> The Hindi prompts are my own translations. Awkward phrasing could change behaviour independently of language, so native speakers should review them before conclusions are drawn.</p>
+
+<h2 id="s5"><i>5</i>What I would do next</h2>
+<p>Add a random-direction control, a finer strength grid between 0.05 and 0.15 around layers 17–21, 100+ claims with bootstrap intervals, an instruction-tuned model, and independently written Hindi prompts.</p>
+
+<h2 id="s6"><i>6</i>References</h2>
+<ol class="refs">
+<li>Perez et al. <em>Discovering Language Model Behaviors with Model-Written Evaluations.</em> 2022.</li>
+<li>Sharma et al. <em>Towards Understanding Sycophancy in Language Models.</em> 2023.</li>
+<li>Rimsky et al. <em>Steering Llama 2 via Contrastive Activation Addition.</em> 2023.</li>
+<li>Turner et al. <em>Activation Addition: Steering Language Models Without Optimization.</em> 2023.</li>
+<li>Zou et al. <em>Representation Engineering: A Top-Down Approach to AI Transparency.</em> 2023.</li>
+</ol>
+<div class="cite"><b>Cite as</b>Sinha, S. R. (2026). Can we steer sycophancy, and does it transfer to Hindi?. Interpretability Notes 03. https://sam22ridhi.github.io/posts/sycophancy-steering.html</div>
+<div class="pn"><a href="indic-latent-language.html"><span>Previous</span><b>Do multilingual models think in English? A Hindi logit lens</b></a><a href="../blog.html"><span>Index</span><b>All writing</b></a></div>
+</article>
+<footer>© 2026 Samridhi Raj Sinha · <a href="../blog.html">all writing</a></footer>
+<script src="charts.js"></script>
+<script>
+const DATA={"model": "Qwen/Qwen2.5-3B", "alphas": [-0.4, -0.2, -0.1, 0, 0.1, 0.2, 0.4], "layers": [14, 19, 25], "n_claims": 14, "base": {"en_belief": 0.4942572441484247, "en_neutral": 0.08880845179581749, "hi_belief": 0.590829291513988, "hi_neutral": 0.3468105511274189}, "steer": {"14_en_belief": [0.6744031916771617, 0.5220991476838078, 0.5010154538654855, 0.4942572441484247, 0.5127135109422463, 0.5641322513776166, 0.7155531187142644], "14_en_neutral": [0.2655857759527862, 0.10183850496209093, 0.08421621400131178, 0.08880845179581749, 0.11427357362117618, 0.1708625101018697, 0.44148204156330656], "14_hi_belief": [0.8318003054176059, 0.6904454295124326, 0.6329174254621778, 0.590829291513988, 0.5537311966930117, 0.5197925354753222, 0.40398519166878294], "14_hi_neutral": [0.5352382657251188, 0.3859343135596386, 0.3570548354847623, 0.3468105511274189, 0.3427146829531661, 0.3461135395669511, 0.34118736375655445], "19_en_belief": [0.5138199403882027, 0.4951342024973461, 0.3272768639560257, 0.4942572441484247, 0.8464456860508237, 0.7968068953071322, 0.7400476900594575], "19_en_neutral": [0.45247082518679754, 0.2400663753173181, 0.06648753533538963, 0.08880845179581749, 0.43108422754864606, 0.682749762066773, 0.8435312062501907], "19_hi_belief": [0.4476106012506144, 0.5720125415495464, 0.44895227519529207, 0.590829291513988, 0.653020900275026, 0.626167750784329, 0.5134837376265621], "19_hi_neutral": [0.48575097961085184, 0.4396094184901033, 0.2626044997679336, 0.3468105511274189, 0.6188181902148894, 0.6305776504533631, 0.48209810232427636], "25_en_belief": [0.6657700932451657, 0.4815595735396658, 0.4708264637738466, 0.4942572441484247, 0.5438856461218425, 0.5674705811377082, 0.5971056393214634], "25_en_neutral": [0.698797766651426, 0.15634253128830874, 0.09312136584360685, 0.08880845179581749, 0.11540379854185241, 0.1531795987393707, 0.37856742047837805], "25_hi_belief": [0.5950591436454228, 0.49514313893658773, 0.4721884924386229, 0.590829291513988, 0.6671887529747826, 0.5589893556066922, 0.531981799485428], "25_hi_neutral": [0.5945020839571953, 0.44056039143885883, 0.33717120911127757, 0.3468105511274189, 0.39169352947335156, 0.382849233224988, 0.5095874098395663]}};
+
+Promise.resolve(DATA).then(D=>{
+const b=D.base,pc=v=>(v*100).toFixed(0)+"%",A=D.alphas,key=(l,g,f)=>D.steer[`${l}_${g}_${f}`],gap=g=>b[g+"_belief"]-b[g+"_neutral"];
+document.getElementById("base").innerHTML=`<table class="t"><tr><th>language</th><th>P(yes) user believes</th><th>P(yes) neutral</th><th>sycophancy gap</th></tr>`+
+["en","hi"].map(g=>`<tr><td>${g=="en"?"English":"Hindi"}</td><td>${pc(b[g+"_belief"])}</td><td>${pc(b[g+"_neutral"])}</td><td>${(gap(g)>=0?"+":"")+(gap(g)*100).toFixed(0)} pts</td></tr>`).join("")+`</table><div class="ctl" style="margin-top:8px">${D.model} · ${D.n_claims} false claims · each cell averages both answer orders</div>`;
+const ch=document.getElementById("ch");ch.innerHTML=D.layers.map((l,i)=>`<div id="p${i}"></div>`).join("");
+D.layers.forEach((l,i)=>lineChart(document.getElementById("p"+i),A,[
+{y:key(l,"en","belief"),c:"#89608e",name:"en belief"},{y:key(l,"en","neutral"),c:"#89608e",dash:1,name:"en neutral"},
+{y:key(l,"hi","belief"),c:"#2a222e",name:"hi belief"},{y:key(l,"hi","neutral"),c:"#2a222e",dash:1,name:"hi neutral"}],{xlabel:`steering strength, layer ${l}`,ylabel:"P(yes)",ymin:0,ymax:1,vline:A.indexOf(0)}));
+const z=A.indexOf(0),ia=A.indexOf(0.1),ib=A.indexOf(0.2),sg=x=>(x>=0?"+":"")+(x*100).toFixed(0);
+const row=(l,k)=>{const r=g=>{const bb=key(l,g,"belief")[k]-key(l,g,"belief")[z],nn=key(l,g,"neutral")[k]-key(l,g,"neutral")[z];return [bb,nn,bb-nn]};return [...r("en"),...r("hi")].map(v=>`<td>${sg(v)}</td>`).join("")};
+document.getElementById("tab").innerHTML=`<table class="t"><tr><th>layer · strength</th><th>EN belief</th><th>EN neutral</th><th>EN gap</th><th>HI belief</th><th>HI neutral</th><th>HI gap</th></tr>`+
+D.layers.map(l=>`<tr><td>${l} · +0.1</td>${row(l,ia)}</tr><tr><td>${l} · +0.2</td>${row(l,ib)}</tr>`).join("")+
+`</table><div class="ctl" style="margin-top:8px">Change in P(yes) in percentage points relative to no steering. “Gap” = belief change minus neutral change: near zero means steering moved both framings equally.</div>`;
+});
+
+</script>
+</body>
+</html>

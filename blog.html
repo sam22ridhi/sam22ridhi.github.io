@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Writing — Samridhi Raj Sinha</title>
+<meta name="description" content="Interpretability notes, evaluation experiments and essays by Samridhi Raj Sinha.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="posts/post.css">
+<style>
+.wrap{max-width:820px;margin:0 auto;padding:64px 24px 40px}
+.wrap h1{font-size:clamp(46px,9vw,88px);line-height:.95}.wrap h1 em{font-style:italic;font-weight:500;color:var(--acc)}
+.lead{font:500 22px/1.5 var(--sf);color:#5a4d5e;max-width:600px;margin:0 0 30px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:34px 0 6px}.pills button{font:13px var(--ui);background:none;color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:5px 15px;cursor:pointer}.pills button.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+.grp{font:500 12px var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin:44px 0 0;padding-bottom:10px;border-bottom:1px solid var(--tx)}
+.it{display:grid;grid-template-columns:70px 1fr;gap:4px 18px;padding:26px 8px;border-bottom:1px solid var(--line);text-decoration:none;transition:.2s;border-radius:6px}
+a.it:hover{background:var(--warm);padding-left:16px}.it .n{font:13px var(--mo);color:var(--acc);padding-top:8px}.it h3{margin:0;font:700 29px/1.15 var(--sf)}.it p{margin:6px 0 8px;color:#5a4d5e;font-size:16px;line-height:1.6}
+.it .tg{font:12px var(--mo);color:var(--mut)}.it.q{opacity:.55}
+.feat{margin-top:26px;background:var(--tx);color:var(--bg);border-radius:10px;padding:26px 30px}.feat b{font:500 12px var(--ui);letter-spacing:.12em;color:var(--pnk);text-transform:uppercase}.feat p{margin:8px 0 0;font:500 21px/1.45 var(--sf);color:#f2eaf0}
+@media(max-width:640px){.it{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<nav><div class="w"><b>S. R. Sinha</b><span class="sp"></span><a href="index.html#about">about</a><a href="index.html#exp">experience</a><a href="index.html#research">research</a><a href="index.html#lab">lab</a><a href="blog.html" class="on">writing</a><a href="index.html#personal">personal</a></div></nav>
+<main class="wrap">
+<div class="kick">Writing</div>
+<h1>Notes from <em>inside</em> the model</h1>
+<p class="lead">Small, reproducible experiments in interpretability and evaluation, written up with their controls and their failures. Every post links to a notebook that runs on a free GPU.</p>
+<div class="feat"><b>Series · Interpretability Notes</b><p>What does a language model do between reading a question and writing an answer, and what changes when the language is Hindi?</p></div>
+<div class="pills" id="pills"></div>
+<div id="list"></div>
+</main>
+<footer>© 2026 Samridhi Raj Sinha · <a href="index.html">home</a></footer>
+<script>
+const RT={"logit-lens": 5, "indic-latent-language": 4, "sycophancy-steering": 4};
+const P=[
+{g:"Interpretability Notes",k:"interp",n:"01",t:"Watching a prediction form: the logit lens on GPT-2",u:"posts/logit-lens.html",s:"Decode GPT-2’s residual stream at every layer. The right city narrows in by layer 9 but the model never commits to it, and a random-weights control shows the effect is learned, not an artefact.",tg:"GPT-2 small · logit lens · controls",r:RT["logit-lens"]},
+{g:"Interpretability Notes",k:"indic",n:"02",t:"Do multilingual models think in English? A Hindi logit lens",u:"posts/indic-latent-language.html",s:"Hindi to Chinese translation in Qwen2.5-3B. Latin-script tokens dominate the middle layers and the switch to Chinese is abrupt, about 78% of the way through the network.",tg:"Qwen2.5-3B · Indic NLP · latent language",r:RT["indic-latent-language"]},
+{g:"Interpretability Notes",k:"indic",n:"03",t:"Can we steer sycophancy, and does it transfer to Hindi?",u:"posts/sycophancy-steering.html",s:"Measure sycophancy in English and Hindi, steer it with an activation difference, and find a generic yes-direction rather than a sycophancy dial.",tg:"Qwen2.5-3B · steering · negative result",r:RT["sycophancy-steering"]},
+{g:"Essays",k:"essays",n:"2024",t:"Life is a Fig Tree",u:"https://medium.com/@samridhiraj04/life-is-a-fig-tree-a2b3cd223941",s:"A personal essay on choices.",tg:"Medium · personal"},
+{g:"Essays",k:"essays",n:"2023",t:"Beyond Earth: Unravelling the Fermi Paradox",u:"https://medium.com/@samridhiraj04/beyond-earth-unravelling-the-fermi-paradox-ac6bdb1ec9e3",s:"Where is everybody?",tg:"Medium · space"},
+{g:"Coming up",k:"queued",n:"next",t:"What I learned building a 50+ benchmark eval harness",s:"Lessons from EKA-EVAL.",tg:"evals",q:1},
+{g:"Coming up",k:"queued",n:"soon",t:"Activation patching: from readable to causal",s:"Does the layer where the answer is readable actually cause it?",tg:"interpretability",q:1},
+{g:"Coming up",k:"queued",n:"soon",t:"How KV-cache and paged attention make inference fast",s:"A concept note with measurements.",tg:"inference",q:1}];
+let f="all";const tabs=[["all","all"],["interp","interpretability"],["indic","Indic"],["essays","essays"]];
+function draw(){document.getElementById("pills").innerHTML=tabs.map(([k,l])=>`<button class="${k==f?"on":""}" data-k="${k}">${l}</button>`).join("");
+let out="",cur="";P.filter(p=>f=="all"||p.k==f||(f=="interp"&&p.g=="Interpretability Notes")).forEach(p=>{if(p.g!=cur){cur=p.g;out+=`<div class="grp">${cur}</div>`}
+const inner=`<span class="n">${p.n}</span><div><h3>${p.t}</h3><p>${p.s}</p><div class="tg">${p.tg}${p.r?` · ${p.r} min read`:""}${p.u?"":" · not yet written"}</div></div>`;
+out+=p.u?`<a class="it" href="${p.u}">${inner}</a>`:`<div class="it q">${inner}</div>`});document.getElementById("list").innerHTML=out}
+document.getElementById("pills").onclick=e=>{if(e.target.dataset.k){f=e.target.dataset.k;draw()}};draw();
+</script>
+</body>
+</html>
